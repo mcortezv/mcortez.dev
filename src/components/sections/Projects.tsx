@@ -188,7 +188,7 @@ export default function Projects() {
                 onMouseLeave={() => setHovered(null)}
               >
                 <div
-                  className="rounded-xl overflow-hidden backdrop-blur-sm"
+                  className="proj-card card-light rounded-xl overflow-hidden backdrop-blur-sm"
                   style={{
                     background: proj.bg,
                     border: `1px solid ${isActive ? proj.color : proj.border}`,

@@ -128,7 +128,7 @@ export default function Contact() {
         {/* ── Contact cards ── */}
         <div className="cc-grid">
           {/* GitHub */}
-          <a href={personal.links.github} target="_blank" rel="noopener noreferrer" className="cc-card magnetic">
+          <a href={personal.links.github} target="_blank" rel="noopener noreferrer" className="card-light cc-card magnetic">
             <div className="cc-icon"><GitHubIcon /></div>
             <div className="cc-info">
               <span className="cc-label">GitHub</span>
@@ -138,7 +138,7 @@ export default function Contact() {
           </a>
 
           {/* Email */}
-          <a href={`mailto:${personal.email.personal}`} className="cc-card cc-card--email magnetic">
+          <a href={`mailto:${personal.email.personal}`} className="card-light cc-card cc-card--email magnetic">
             <div className="cc-icon"><EmailIcon /></div>
             <div className="cc-info">
               <span className="cc-label">Email</span>
@@ -149,7 +149,7 @@ export default function Contact() {
           </a>
 
           {/* LinkedIn */}
-          <a href={personal.links.linkedin} target="_blank" rel="noopener noreferrer" className="cc-card magnetic">
+          <a href={personal.links.linkedin} target="_blank" rel="noopener noreferrer" className="card-light cc-card magnetic">
             <div className="cc-icon cc-icon--blue"><LinkedInIcon /></div>
             <div className="cc-info">
               <span className="cc-label">LinkedIn</span>

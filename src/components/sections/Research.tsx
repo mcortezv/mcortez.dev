@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
-import { gsap, ScrollTrigger, addTilt3D } from '@/lib/gsap'
+import { gsap, ScrollTrigger, addCardLight } from '@/lib/gsap'
 import { papers } from '@/data/papers'
 import { useNavigate } from 'react-router-dom'
 import NeuralReveal from '@/components/ui/NeuralReveal'
@@ -44,16 +44,16 @@ export default function Research() {
       },
     })
 
-    // ── 3D tilt on paper cells ──
-    const tiltCleanups: (() => void)[] = []
+    // ── Luz que sigue al cursor ──
+    const lightCleanups: (() => void)[] = []
     if (window.innerWidth > 768) {
       gsap.utils.toArray<HTMLElement>('.paper-cell').forEach(cell => {
-        tiltCleanups.push(addTilt3D(cell, 5))
+        lightCleanups.push(addCardLight(cell))
       })
     }
 
     return () => {
-      tiltCleanups.forEach(fn => fn())
+      lightCleanups.forEach(fn => fn())
     }
   }, { scope: containerRef })
 

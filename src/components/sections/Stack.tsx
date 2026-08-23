@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
-import { gsap, ScrollTrigger, addTilt3D } from '@/lib/gsap'
+import { gsap, ScrollTrigger, addCardLight } from '@/lib/gsap'
 import { techStack } from '@/data/personal'
 import type { TechItem } from '@/types'
 import NeuralReveal from '@/components/ui/NeuralReveal'
@@ -121,11 +121,11 @@ export default function Stack() {
       },
     })
 
-    // ── 3D tilt on cells ──
-    const tiltCleanups: (() => void)[] = []
+    // ── Luz que sigue al cursor ──
+    const lightCleanups: (() => void)[] = []
     if (window.innerWidth > 768) {
       gsap.utils.toArray<HTMLElement>('.stack-cell').forEach(cell => {
-        tiltCleanups.push(addTilt3D(cell, 6))
+        lightCleanups.push(addCardLight(cell))
       })
     }
 
@@ -142,7 +142,7 @@ export default function Stack() {
     })
 
     return () => {
-      tiltCleanups.forEach(fn => fn())
+      lightCleanups.forEach(fn => fn())
     }
   }, { scope: containerRef })
 
@@ -174,7 +174,7 @@ export default function Stack() {
           }}
         >
           {/* AI/ML — 2 cols */}
-          <div className="stack-cell tilt-card flex flex-col p-6 md:p-8 min-h-[220px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6 md:p-8 min-h-[220px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
             <CellLabel text="AI / ML Stack" color="var(--accent)" />
             <AIPipelineViz />
             <div className="space-y-2.5 mt-auto">
@@ -195,7 +195,7 @@ export default function Stack() {
           </div>
 
           {/* Languages */}
-          <div className="stack-cell tilt-card flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
             <CellLabel text="Languages" color="var(--accent)" />
             <div className="space-y-4 mt-auto">
               {LANGS.map(t => (
@@ -214,7 +214,7 @@ export default function Stack() {
           </div>
 
           {/* Framework */}
-          <div className="stack-cell tilt-card flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
             <CellLabel text="Framework" color="var(--accent-2)" />
             {FW.map(t => (
               <div key={t.name} className="mt-auto">
@@ -234,7 +234,7 @@ export default function Stack() {
           </div>
 
           {/* Database — 2 cols */}
-          <div className="stack-cell tilt-card flex flex-col p-6 md:p-8 min-h-[180px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6 md:p-8 min-h-[180px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
             <CellLabel text="Database" color="var(--accent-4)" />
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-auto">
               {DB.map(t => (
@@ -250,7 +250,7 @@ export default function Stack() {
           </div>
 
           {/* Infrastructure */}
-          <div className="stack-cell tilt-card flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
             <CellLabel text="Infrastructure" color="var(--accent-3)" />
             <div className="space-y-3 mt-auto">
               {INFRA.map(t => (
@@ -269,7 +269,7 @@ export default function Stack() {
           </div>
 
           {/* Tools */}
-          <div className="stack-cell tilt-card flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
             <CellLabel text="Tools" color="var(--text-muted)" />
             <div className="space-y-3 mt-auto">
               {TOOLS.map(t => (

@@ -2,8 +2,9 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { gsap } from '@/lib/gsap'
 
 export default function CustomCursor() {
-  const dotRef  = useRef<HTMLDivElement>(null)
-  const ringRef = useRef<HTMLDivElement>(null)
+  const dotRef   = useRef<HTMLDivElement>(null)
+  const ringRef  = useRef<HTMLDivElement>(null)
+  const lightRef = useRef<HTMLDivElement>(null)
   const [isTouch, setIsTouch] = useState(() =>
     typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
   )
@@ -18,15 +19,20 @@ export default function CustomCursor() {
   const setupCursor = useCallback(() => {
     if (isTouch) return
 
-    const dot  = dotRef.current
-    const ring = ringRef.current
-    if (!dot || !ring) return
+    const dot   = dotRef.current
+    const ring  = ringRef.current
+    const light = lightRef.current
+    if (!dot || !ring || !light) return
 
     // quickTo for silky smooth cursor — reuses a single tween per property
     const dotX  = gsap.quickTo(dot, 'x', { duration: 0.08, ease: 'power3.out' })
     const dotY  = gsap.quickTo(dot, 'y', { duration: 0.08, ease: 'power3.out' })
     const ringX = gsap.quickTo(ring, 'x', { duration: 0.35, ease: 'power3.out' })
     const ringY = gsap.quickTo(ring, 'y', { duration: 0.35, ease: 'power3.out' })
+    // La luz va mas rezagada que el anillo: se comporta como una lampara
+    // que arrastra, no como un puntero pegado al raton.
+    const lightX = gsap.quickTo(light, 'x', { duration: 0.65, ease: 'power2.out' })
+    const lightY = gsap.quickTo(light, 'y', { duration: 0.65, ease: 'power2.out' })
 
     // Track velocity for stretch effect
     let lastX = 0, lastY = 0
@@ -42,6 +48,8 @@ export default function CustomCursor() {
       dotY(e.clientY)
       ringX(e.clientX)
       ringY(e.clientY)
+      lightX(e.clientX)
+      lightY(e.clientY)
 
       // Subtle stretch based on movement velocity
       const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY)
@@ -119,8 +127,9 @@ export default function CustomCursor() {
 
   return (
     <>
-      <div ref={dotRef}  className="cursor-dot"  aria-hidden="true" />
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
+      <div ref={lightRef} className="cursor-light" aria-hidden="true" />
+      <div ref={dotRef}   className="cursor-dot"   aria-hidden="true" />
+      <div ref={ringRef}  className="cursor-ring"  aria-hidden="true" />
     </>
   )
 }

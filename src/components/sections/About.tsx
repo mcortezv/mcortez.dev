@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo } from 'react'
 import { useGSAP } from '@gsap/react'
-import { gsap, addTilt3D } from '@/lib/gsap'
+import { gsap, addCardLight } from '@/lib/gsap'
 import NeuralReveal from '@/components/ui/NeuralReveal'
 
 /* ─── Map dot positions ─── */
@@ -207,11 +207,11 @@ export default function About() {
       })
     })
 
-    // ── 3D tilt on cards for interactive depth ──
-    const tiltCleanups: (() => void)[] = []
+    // ── Luz que sigue al cursor dentro de cada tarjeta ──
+    const lightCleanups: (() => void)[] = []
     if (window.innerWidth > 768) {
       cards.forEach(card => {
-        tiltCleanups.push(addTilt3D(card, 8))
+        lightCleanups.push(addCardLight(card))
       })
     }
 
@@ -238,7 +238,7 @@ export default function About() {
     })
 
     return () => {
-      tiltCleanups.forEach(fn => fn())
+      lightCleanups.forEach(fn => fn())
     }
   }, { scope: containerRef })
 
@@ -267,7 +267,7 @@ export default function About() {
         >
           {/* Bio Card (2-col) */}
           <div
-            className="about-card tilt-card group relative p-7 md:p-8 overflow-hidden transition-all duration-300"
+            className="about-card card-light group relative p-7 md:p-8 overflow-hidden transition-all duration-300"
             style={{ gridColumn: 'span 2', background: 'var(--bg-card)' }}
           >
 
@@ -286,7 +286,7 @@ export default function About() {
 
           {/* Location Card */}
           <div
-            className="about-card tilt-card group relative p-7 overflow-hidden transition-all duration-300"
+            className="about-card card-light group relative p-7 overflow-hidden transition-all duration-300"
             style={{ background: 'var(--bg-card)', minHeight: 200 }}
           >
 

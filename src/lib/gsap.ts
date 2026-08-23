@@ -76,34 +76,41 @@ export function addMagneticEffect(el: HTMLElement, strength = 0.3) {
   }
 }
 
-/** 3D perspective tilt on hover — cinematic depth effect */
-export function addTilt3D(el: HTMLElement, strength = 12) {
+/**
+ * Luz que sigue al cursor dentro de una tarjeta.
+ *
+ * Sustituye al tilt 3D: al rotar la tarjeta su borde se despegaba y dejaba
+ * un hueco contra el fondo, ademas de desalinearla de sus vecinas. Aqui no
+ * se mueve nada: solo viaja el centro de un degradado radial, que al ser
+ * generado no tiene bordes que puedan quedar al descubierto.
+ *
+ * La posicion se publica como --mx / --my y el pintado vive en CSS
+ * (`.card-light::before`), asi el trabajo se queda en el compositor.
+ */
+export function addCardLight(el: HTMLElement) {
+  let frame = 0
+
   const handleMove = (e: MouseEvent) => {
-    const rect = el.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    gsap.to(el, {
-      rotationY: x * strength,
-      rotationX: -y * strength,
-      transformPerspective: 800,
-      duration: 0.4,
-      ease: 'power2.out',
+    if (frame) return
+    frame = requestAnimationFrame(() => {
+      frame = 0
+      const r = el.getBoundingClientRect()
+      el.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`)
+      el.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`)
     })
   }
 
+  // Al salir, la luz se queda donde estaba y solo se desvanece: si volviera
+  // al centro se veria un salto justo cuando ya no hay puntero.
   const handleLeave = () => {
-    gsap.to(el, {
-      rotationY: 0,
-      rotationX: 0,
-      duration: 0.55,
-      ease: 'smooth-out',
-    })
+    if (frame) { cancelAnimationFrame(frame); frame = 0 }
   }
 
   el.addEventListener('mousemove', handleMove)
   el.addEventListener('mouseleave', handleLeave)
 
   return () => {
+    if (frame) cancelAnimationFrame(frame)
     el.removeEventListener('mousemove', handleMove)
     el.removeEventListener('mouseleave', handleLeave)
   }

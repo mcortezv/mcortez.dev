@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
-import { gsap, addTilt3D } from '@/lib/gsap'
+import { gsap, addCardLight } from '@/lib/gsap'
 import { personal, achievements } from '@/data/personal'
 import NeuralReveal from '@/components/ui/NeuralReveal'
 
@@ -41,11 +41,11 @@ export default function Experience() {
       })
     })
 
-    // ── 3D tilt on cards ──
-    const tiltCleanups: (() => void)[] = []
+    // ── Luz que sigue al cursor ──
+    const lightCleanups: (() => void)[] = []
     if (window.innerWidth > 768) {
       cards.forEach(card => {
-        tiltCleanups.push(addTilt3D(card, 7))
+        lightCleanups.push(addCardLight(card))
       })
     }
 
@@ -69,7 +69,7 @@ export default function Experience() {
     }
 
     return () => {
-      tiltCleanups.forEach(fn => fn())
+      lightCleanups.forEach(fn => fn())
     }
   }, { scope: containerRef })
 
@@ -99,7 +99,7 @@ export default function Experience() {
         >
           {/* ── Current Role Card (2-col) ── */}
           <div
-            className="exp-card tilt-card group relative p-7 md:p-8 overflow-hidden transition-all duration-300 flex flex-col justify-between"
+            className="exp-card card-light group relative p-7 md:p-8 overflow-hidden transition-all duration-300 flex flex-col justify-between"
             style={{ gridColumn: 'span 2', background: 'var(--bg-card)', minHeight: 240 }}
           >
 
@@ -121,7 +121,7 @@ export default function Experience() {
           </div>
 
           {/* ── Education Card ── */}
-          <div className="exp-card tilt-card group relative p-7 overflow-hidden transition-all duration-300 flex flex-col" style={{ background: 'var(--bg-card)' }}>
+          <div className="exp-card card-light group relative p-7 overflow-hidden transition-all duration-300 flex flex-col" style={{ background: 'var(--bg-card)' }}>
 
             <div className="relative z-10 flex-1">
               <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-3 block">Education</span>

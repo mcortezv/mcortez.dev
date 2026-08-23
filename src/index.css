@@ -158,6 +158,29 @@ body {
   z-index: 9999;
 }
 
+/* ─── Luz global del cursor ──────────────────────────────────
+   Ilumina la pagina alli donde esta el puntero. Va en `screen`, asi que
+   solo suma luz sobre lo que hay debajo: no lava ni tapa nada. Vive dentro
+   de CustomCursor, que ya no se monta en dispositivos tactiles. */
+.cursor-light {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 900px;
+  height: 900px;
+  margin: -450px 0 0 -450px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.050) 0%,
+    rgba(255, 255, 255, 0.022) 32%,
+    rgba(255, 255, 255, 0.008) 52%,
+    transparent 70%);
+  mix-blend-mode: screen;
+  z-index: 9997;
+  will-change: transform;
+}
+
 /* ─── Custom Cursor ──────────────────────────────────────── */
 .cursor-dot {
   pointer-events: none;
@@ -441,16 +464,67 @@ body {
 .word { display: inline-block; overflow: hidden; }
 .char { display: inline-block; }
 
-/* ─── 3D Tilt Card ──────────────────────────────────────── */
-.tilt-card {
-  transform-style: preserve-3d;
-  will-change: transform;
+/* ─── Luz de tarjeta que sigue al cursor ─────────────────────
+   Antes esto era un tilt 3D. Al rotar, el borde de la tarjeta se despegaba
+   y dejaba un hueco contra el fondo. Un degradado radial no tiene bordes:
+   se puede mover su centro sin que nada quede al descubierto.
+
+   `isolation` crea contexto de apilado propio, asi el z-index -1 de la luz
+   queda por encima del fondo de la tarjeta pero por debajo del contenido,
+   sin tener que tocar el z-index de cada hijo. */
+.card-light {
+  position: relative;
+  isolation: isolate;
 }
-.tilt-card > * {
-  transform: translateZ(0);
+
+.card-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle 320px at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.055) 0%,
+    rgba(255, 255, 255, 0.022) 32%,
+    transparent 68%
+  );
+  transition: opacity var(--dur-slow) var(--ease-out);
 }
-.tilt-inner {
-  transform: translateZ(30px);
+
+.card-light:hover::before { opacity: 1; }
+
+/* Respuesta al hover, contenida: elevacion en las tarjetas sueltas. Las
+   celdas de rejilla (Stack, Research) se quedan quietas porque viven en
+   juntas de 1px y el desplazamiento romperia las costuras — ahi la
+   respuesta la da la luz. Los transform van en CSS a proposito: el fondo
+   de estas tarjetas es inline y no se puede pisar desde aqui. */
+.about-card,
+.exp-card,
+.cc-card,
+.proj-card {
+  transition: transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+
+.about-card:hover,
+.exp-card:hover,
+.cc-card:hover,
+.proj-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* Piezas pequenas: el borde reacciona, nada mas */
+.tag:hover,
+.hero-affil-mark {
+  border-color: var(--border-strong);
+}
+.tag:hover { color: var(--text-secondary); }
+
+@media (hover: none) {
+  .card-light::before { display: none; }
 }
 
 /* ─── Reveal mask for SplitText lines ───────────────────── */
