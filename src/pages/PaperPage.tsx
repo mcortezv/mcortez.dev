@@ -215,7 +215,7 @@ export default function PaperPage() {
           <div className="flex items-center gap-2">
             <div
               className="w-5 h-5 rounded flex items-center justify-center"
-              style={{ background: darkMode ? 'var(--accent)' : theme.ink }}
+              style={{ background: darkMode ? 'var(--text)' : theme.ink }}
             >
               <span
                 className="font-black text-[8px]"
@@ -272,8 +272,12 @@ export default function PaperPage() {
           <div ref={metaRef} className="mb-7">
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <span
-                className="text-xs font-semibold px-3 py-1 rounded-md text-white"
-                style={{ background: paper.categoryColor }}
+                className="text-xs font-medium px-2.5 py-1 rounded-md"
+                style={{
+                  color: paper.categoryColor,
+                  background: `${paper.categoryColor}14`,
+                  border: `1px solid ${paper.categoryColor}33`,
+                }}
               >
                 {paper.category}
               </span>

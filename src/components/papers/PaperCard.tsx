@@ -7,8 +7,8 @@ interface PaperCardProps {
 }
 
 const STATUS_STYLES: Record<Paper['status'], { label: string; style: React.CSSProperties }> = {
-  published:    { label: 'Published',    style: { background: 'rgba(34,211,165,0.1)', color: '#22d3a5', border: '1px solid rgba(34,211,165,0.25)' } },
-  'in-progress':{ label: 'In Progress',  style: { background: 'rgba(249,115,22,0.1)', color: '#f97316', border: '1px solid rgba(249,115,22,0.25)' } },
+  published:    { label: 'Published',    style: { background: 'rgba(64,209,160,0.1)', color: 'var(--accent)', border: '1px solid rgba(64,209,160,0.25)' } },
+  'in-progress':{ label: 'In Progress',  style: { background: 'rgba(217,146,89,0.1)', color: 'var(--accent-3)', border: '1px solid rgba(217,146,89,0.25)' } },
   draft:        { label: 'Draft',        style: { background: 'rgba(136,136,136,0.08)', color: '#888', border: '1px solid rgba(136,136,136,0.15)' } },
 }
 

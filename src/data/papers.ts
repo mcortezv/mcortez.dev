@@ -7,7 +7,7 @@ export const papers: Paper[] = [
     abstract:
       'This paper explores advanced retrieval-augmented generation architectures tailored for multi-tenant B2B environments. We analyze context isolation strategies, embedding space partitioning, and dynamic retrieval thresholds that maintain data privacy while maximizing relevance across tenant boundaries.',
     category: 'AI Systems',
-    categoryColor: '#22d3a5',
+    categoryColor: '#40d1a0',
     tags: ['RAG', 'LangChain', 'Embeddings', 'Multi-tenant', 'Vector Databases'],
     date: '2026-03-15',
     readingTime: '12 min',
@@ -75,7 +75,7 @@ Context-Aware RAG for multi-tenant systems requires careful architectural decisi
     abstract:
       'Traditional NLP evaluation metrics fail to capture the business impact of LLMs deployed in customer-facing B2B applications. This paper proposes a multi-dimensional evaluation framework combining technical metrics, user experience signals, and business KPIs to holistically assess LLM performance in production.',
     category: 'LLM Evaluation',
-    categoryColor: '#8b5cf6',
+    categoryColor: '#9786d2',
     tags: ['LangSmith', 'Evals', 'LLM', 'User Experience', 'B2B', 'Metrics'],
     date: '2026-02-08',
     readingTime: '10 min',
@@ -155,7 +155,7 @@ The most successful B2B AI implementations treat evaluation as a continuous feed
     abstract:
       'Building AI agents for demos is easy. Keeping them reliable in production is hard. This paper documents architectural patterns, failure modes, and operational strategies learned from deploying multi-agent systems using Mastra and LangChain in production B2B environments.',
     category: 'AI Agents',
-    categoryColor: '#f97316',
+    categoryColor: '#d99259',
     tags: ['Mastra', 'LangChain', 'Agent Architecture', 'Production', 'Reliability'],
     date: '2026-01-22',
     readingTime: '15 min',
@@ -235,7 +235,7 @@ Production-grade agentic systems require the same engineering discipline as any 
     abstract:
       'Many developers encounter LLMs after building intuition for classical machine learning. This paper maps concepts across both paradigms — from decision trees to chain-of-thought, from PCA to embedding spaces, from cross-validation to LLM evaluation — to accelerate the mental model transition.',
     category: 'Machine Learning',
-    categoryColor: '#22d3a5',
+    categoryColor: '#40d1a0',
     tags: ['Scikit-Learn', 'LLMs', 'Classical ML', 'Transfer Learning', 'Education'],
     date: '2025-11-30',
     readingTime: '14 min',
@@ -302,7 +302,7 @@ Developers with classical ML backgrounds have a significant advantage when worki
     abstract:
       'Python has dominated AI development, but the rise of TypeScript frameworks like Mastra and Vercel AI SDK is enabling a new paradigm: type-safe, full-stack AI development. This paper explores architectural patterns for building robust agent systems with TypeScript, including type-safe tool definitions, structured outputs, and end-to-end type inference.',
     category: 'Software Engineering',
-    categoryColor: '#3b82f6',
+    categoryColor: '#7299d5',
     tags: ['TypeScript', 'Mastra', 'Design Patterns', 'Type Safety', 'Agent Systems'],
     date: '2025-10-14',
     readingTime: '11 min',

@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import NeuralReveal from '@/components/ui/NeuralReveal'
 
 const STATUS_COLORS: Record<string, string> = {
-  published:    '#22d3a5',
-  'in-progress': '#f97316',
+  published:    'var(--accent)',
+  'in-progress': 'var(--accent-3)',
   draft:        '#888',
 }
 
@@ -65,7 +65,7 @@ export default function Research() {
 
   return (
     <section id="research" ref={containerRef} className="section bg-[var(--bg-base)] relative overflow-hidden">
-      <NeuralReveal color={[249, 115, 22]} count={40} />
+      <NeuralReveal color={[234, 232, 228]} count={40} />
       <div className="max-w-[1280px] mx-auto relative z-10">
 
         {/* Header */}
@@ -128,7 +128,7 @@ export default function Research() {
 
             {/* Title */}
             <h3
-              className="font-display font-bold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors mb-3 leading-snug"
+              className="font-display font-semibold text-[var(--text)] mb-3 leading-snug"
               style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', maxWidth: '680px' }}
             >
               {featured.title}
@@ -235,7 +235,7 @@ export default function Research() {
               </div>
 
               {/* Title */}
-              <h3 className="text-sm font-semibold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors leading-snug mb-2 flex-1 line-clamp-3">
+              <h3 className="text-sm font-semibold text-[var(--text)] leading-snug mb-2 flex-1 line-clamp-3">
                 {paper.title}
               </h3>
 

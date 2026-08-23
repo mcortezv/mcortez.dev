@@ -64,7 +64,7 @@ const Logo = ({ name }: { name: string }) => {
     <img
       src={url}
       alt={`${name} logo`}
-      className="w-5 h-5 flex-shrink-0 object-contain"
+      className="tech-logo w-5 h-5 flex-shrink-0 object-contain"
       loading="lazy"
       style={{ filter: name === 'GitHub' || name === 'Vercel' ? 'invert(1)' : undefined }}
     />
@@ -79,7 +79,7 @@ const AIPipelineViz = () => (
         <div key={t.name} className="flex items-center gap-1.5">
           <span
             className="inline-flex items-center gap-1 sm:gap-1.5 font-mono text-[0.6rem] sm:text-[0.68rem] font-semibold px-1.5 sm:px-2 py-0.5 rounded"
-            style={{ background: 'rgba(34,211,165,0.12)', color: '#22d3a5', border: '1px solid rgba(34,211,165,0.2)' }}
+            style={{ background: 'rgba(255,255,255,0.03)', color: 'var(--text-secondary)', border: '1px solid var(--border-medium)' }}
           >
             <span className="hidden sm:inline-flex"><Logo name={t.name} /></span>
             {t.name}
@@ -148,7 +148,7 @@ export default function Stack() {
 
   return (
     <section id="stack" ref={containerRef} className="section bg-[var(--bg-surface)] relative overflow-hidden">
-      <NeuralReveal color={[139, 92, 246]} count={45} />
+      <NeuralReveal color={[234, 232, 228]} count={45} />
       <div className="max-w-[1280px] mx-auto relative z-10">
 
         <div className="stack-label-h section-label">Tech Stack</div>
@@ -175,7 +175,7 @@ export default function Stack() {
         >
           {/* AI/ML — 2 cols */}
           <div className="stack-cell tilt-card flex flex-col p-6 md:p-8 min-h-[220px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
-            <CellLabel text="AI / ML Stack" color="#22d3a5" />
+            <CellLabel text="AI / ML Stack" color="var(--accent)" />
             <AIPipelineViz />
             <div className="space-y-2.5 mt-auto">
               {AI_ML.map(t => (
@@ -188,7 +188,7 @@ export default function Stack() {
                       <span className="text-[0.68rem] text-[var(--text-muted)]">{t.description}</span>
                     </div>
                   </div>
-                  <LevelBar level={t.level} color="#22d3a5" />
+                  <LevelBar level={t.level} color="var(--accent)" />
                 </div>
               ))}
             </div>
@@ -196,7 +196,7 @@ export default function Stack() {
 
           {/* Languages */}
           <div className="stack-cell tilt-card flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
-            <CellLabel text="Languages" color="#22d3a5" />
+            <CellLabel text="Languages" color="var(--accent)" />
             <div className="space-y-4 mt-auto">
               {LANGS.map(t => (
                 <div key={t.name}>
@@ -205,7 +205,7 @@ export default function Stack() {
                       <Logo name={t.name} />
                       <span className="text-sm font-bold text-[var(--text)]">{t.name}</span>
                     </div>
-                    <LevelBar level={t.level} color="#22d3a5" />
+                    <LevelBar level={t.level} color="var(--accent)" />
                   </div>
                   <p className="text-[0.68rem] text-[var(--text-muted)] leading-snug pl-7">{t.description}</p>
                 </div>
@@ -215,19 +215,19 @@ export default function Stack() {
 
           {/* Framework */}
           <div className="stack-cell tilt-card flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
-            <CellLabel text="Framework" color="#8b5cf6" />
+            <CellLabel text="Framework" color="var(--accent-2)" />
             {FW.map(t => (
               <div key={t.name} className="mt-auto">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2.5">
                     <Logo name={t.name} />
-                    <span className="text-2xl font-bold" style={{ color: '#8b5cf6' }}>{t.name}</span>
+                    <span className="text-2xl font-semibold tracking-tight text-[var(--text)]">{t.name}</span>
                   </div>
-                  <LevelBar level={t.level} color="#8b5cf6" />
+                  <LevelBar level={t.level} color="var(--accent-2)" />
                 </div>
                 <p className="text-[0.68rem] text-[var(--text-muted)]">{t.description}</p>
-                <div className="mt-4 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(139,92,246,0.12)' }}>
-                  <div className="h-full rounded-full" style={{ width: '95%', background: 'rgba(139,92,246,0.6)' }} />
+                <div className="mt-4 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(151,134,210,0.12)' }}>
+                  <div className="h-full rounded-full" style={{ width: '95%', background: 'rgba(151,134,210,0.6)' }} />
                 </div>
               </div>
             ))}
@@ -235,10 +235,10 @@ export default function Stack() {
 
           {/* Database — 2 cols */}
           <div className="stack-cell tilt-card flex flex-col p-6 md:p-8 min-h-[180px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
-            <CellLabel text="Database" color="#3b82f6" />
+            <CellLabel text="Database" color="var(--accent-4)" />
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-auto">
               {DB.map(t => (
-                <div key={t.name} className="p-3 rounded-lg flex flex-col gap-2" style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.14)' }}>
+                <div key={t.name} className="p-3 rounded-lg flex flex-col gap-2" style={{ background: 'rgba(114,153,213,0.06)', border: '1px solid rgba(114,153,213,0.14)' }}>
                   <div className="flex items-center gap-2">
                     <Logo name={t.name} />
                     <span className="text-sm font-bold text-[var(--text)] leading-tight">{t.name}</span>
@@ -251,7 +251,7 @@ export default function Stack() {
 
           {/* Infrastructure */}
           <div className="stack-cell tilt-card flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
-            <CellLabel text="Infrastructure" color="#f97316" />
+            <CellLabel text="Infrastructure" color="var(--accent-3)" />
             <div className="space-y-3 mt-auto">
               {INFRA.map(t => (
                 <div key={t.name}>
@@ -260,7 +260,7 @@ export default function Stack() {
                       <Logo name={t.name} />
                       <span className="text-sm font-bold text-[var(--text)]">{t.name}</span>
                     </div>
-                    <LevelBar level={t.level} color="#f97316" />
+                    <LevelBar level={t.level} color="var(--accent-3)" />
                   </div>
                   <p className="text-[0.68rem] text-[var(--text-muted)] pl-7">{t.description}</p>
                 </div>

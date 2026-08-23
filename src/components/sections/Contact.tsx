@@ -110,16 +110,7 @@ export default function Contact() {
 
   return (
     <section id="contact" ref={containerRef} className="section bg-[var(--bg-surface)] relative overflow-hidden">
-      {/* Neon radial glow */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          top: '40%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: 900, height: 900,
-          background: 'radial-gradient(circle, rgba(34,211,165,0.07) 0%, rgba(34,211,165,0.03) 25%, transparent 60%)',
-        }}
-      />
-      <NeuralReveal color={[34, 211, 165]} count={55} />
+      <NeuralReveal color={[234, 232, 228]} count={55} />
 
       <div className="max-w-[1280px] mx-auto relative z-10">
         <div className="contact-label section-label">Contact</div>
@@ -172,7 +163,7 @@ export default function Contact() {
         <div className="flex justify-center mb-10 mt-10">
           <a
             href={`mailto:${personal.email.personal}`}
-            className="contact-cta btn-primary text-base px-8 py-3.5 rounded-full magnetic hover:shadow-[0_8px_32px_rgba(34,211,165,0.3),0_0_60px_rgba(34,211,165,0.15)]"
+            className="contact-cta btn-hero btn-hero--solid text-sm px-7 py-3.5 magnetic"
           >
             Send me an email
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
@@ -219,8 +210,8 @@ export default function Contact() {
 
         .cc-card:hover {
           background: var(--bg-card-hover);
-          border-color: rgba(34, 211, 165, 0.2);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(34,211,165,0.08);
+          border-color: rgba(79, 191, 154, 0.2);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.45);
         }
 
         /* Grid pattern on hover */
@@ -246,7 +237,7 @@ export default function Contact() {
           left: -1px;
           width: 140px;
           height: 140px;
-          background: radial-gradient(circle at top left, rgba(34,211,165,0.15) 0%, transparent 70%);
+          background: none;
           pointer-events: none;
           opacity: 0;
           transition: opacity 0.25s ease;
@@ -263,25 +254,19 @@ export default function Contact() {
           height: 48px;
           min-width: 48px;
           border-radius: var(--radius-md);
-          background: rgba(34,211,165,0.08);
-          border: 1px solid rgba(34,211,165,0.18);
-          color: var(--accent);
+          background: rgba(255,255,255,0.03);
+          border: 1px solid var(--border-medium);
+          color: var(--text-secondary);
           position: relative;
           z-index: 1;
-          transition: all 0.25s ease;
+          transition: background var(--dur-base) var(--ease-standard),
+                      border-color var(--dur-base) var(--ease-standard),
+                      color var(--dur-base) var(--ease-standard);
         }
         .cc-card:hover .cc-icon {
-          background: rgba(34,211,165,0.15);
-          box-shadow: 0 0 20px rgba(34,211,165,0.15);
-        }
-        .cc-icon--blue {
-          background: rgba(59,130,246,0.08);
-          border-color: rgba(59,130,246,0.18);
-          color: #3b82f6;
-        }
-        .cc-card:hover .cc-icon--blue {
-          background: rgba(59,130,246,0.15);
-          box-shadow: 0 0 20px rgba(59,130,246,0.15);
+          background: rgba(255,255,255,0.055);
+          border-color: var(--border-strong);
+          color: var(--text);
         }
 
         /* Info */
@@ -310,7 +295,7 @@ export default function Contact() {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        .cc-value--blue { color: #3b82f6; }
+        .cc-value--blue { color: var(--text); }
         .cc-secondary {
           font-family: 'JetBrains Mono', monospace;
           font-size: 0.65rem;
@@ -325,7 +310,9 @@ export default function Contact() {
           position: relative;
           z-index: 1;
           flex-shrink: 0;
-          transition: all 0.25s ease;
+          transition: background var(--dur-base) var(--ease-standard),
+                      border-color var(--dur-base) var(--ease-standard),
+                      color var(--dur-base) var(--ease-standard);
         }
         .cc-card:hover .cc-arrow {
           color: var(--accent);

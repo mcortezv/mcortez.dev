@@ -62,7 +62,7 @@ export default function Experience() {
       const dot = progressRef.current.querySelector('span')
       if (dot) {
         barTl.to(dot, {
-          boxShadow: '0 0 20px var(--accent-2), 0 0 40px rgba(139,92,246,0.3)',
+          boxShadow: 'none',
           duration: 0.8, ease: 'power2.inOut', yoyo: true, repeat: 3,
         }, '-=0.5')
       }
@@ -75,7 +75,7 @@ export default function Experience() {
 
   return (
     <section id="experience" ref={containerRef} className="section bg-[var(--bg-base)] relative overflow-hidden">
-      <NeuralReveal color={[34, 211, 165]} count={40} />
+      <NeuralReveal color={[234, 232, 228]} count={40} />
       <div className="max-w-[1280px] mx-auto relative z-10">
 
         {/* Header */}
@@ -102,14 +102,12 @@ export default function Experience() {
             className="exp-card tilt-card group relative p-7 md:p-8 overflow-hidden transition-all duration-300 flex flex-col justify-between"
             style={{ gridColumn: 'span 2', background: 'var(--bg-card)', minHeight: 240 }}
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-            <div className="absolute top-0 right-0 w-36 h-36 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: 'radial-gradient(circle at top right, rgba(34,211,165,0.15) 0%, transparent 70%)' }} />
 
             <div className="relative z-10">
               <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-4 block">Current Role</span>
               <h3 className="text-xl md:text-2xl font-bold text-[var(--text)] leading-tight">
                 {currentRole.title}{' '}
-                <span className="text-[var(--accent)]">@ {currentRole.company}</span>
+                <span className="text-[var(--text-secondary)]">@ {currentRole.company}</span>
               </h3>
               <p className="text-sm text-[var(--text-muted)] mt-3 leading-relaxed max-w-lg">{currentRole.description}</p>
             </div>
@@ -124,8 +122,6 @@ export default function Experience() {
 
           {/* ── Education Card ── */}
           <div className="exp-card tilt-card group relative p-7 overflow-hidden transition-all duration-300 flex flex-col" style={{ background: 'var(--bg-card)' }}>
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-            <div className="absolute top-0 right-0 w-28 h-28 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: 'radial-gradient(circle at top right, rgba(139,92,246,0.15) 0%, transparent 70%)' }} />
 
             <div className="relative z-10 flex-1">
               <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-3 block">Education</span>
@@ -140,8 +136,8 @@ export default function Experience() {
 
             <div className="relative z-10 mt-6">
               <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: 'var(--border)' }}>
-                <div ref={progressRef} className="h-full rounded-full relative" style={{ width: 0, background: 'linear-gradient(90deg, var(--accent-2), rgba(139,92,246,0.4))' }}>
-                  <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-2)', boxShadow: '0 0 12px var(--accent-2)' }} />
+                <div ref={progressRef} className="h-full rounded-full relative" style={{ width: 0, background: 'linear-gradient(90deg, var(--accent-2), rgba(151,134,210,0.4))' }}>
+                  <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-2)' }} />
                 </div>
               </div>
               <div className="flex justify-between mt-2 font-mono text-[0.6rem] text-[var(--text-muted)] tracking-wide">
@@ -159,22 +155,19 @@ export default function Experience() {
           {/* NVIDIA */}
           <div
             className="exp-card group relative rounded-2xl p-7 overflow-hidden transition-all duration-300"
-            style={{ background: 'linear-gradient(135deg, rgba(118,185,0,0.08), rgba(118,185,0,0.02), var(--bg-card))', border: '1px solid rgba(118,185,0,0.15)' }}
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-            <div className="absolute top-0 right-0 w-40 h-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: 'radial-gradient(circle at top right, rgba(118,185,0,0.2) 0%, transparent 70%)' }} />
-            <div className="absolute top-0 -left-full w-full h-full opacity-0 group-hover:opacity-100 group-hover:left-full transition-all duration-700 pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent, rgba(118,185,0,0.05), transparent)' }} />
 
             <div className="relative z-10 flex items-start gap-5">
               <div
                 className="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg, rgba(118,185,0,0.18), rgba(118,185,0,0.06))', border: '1px solid rgba(118,185,0,0.3)' }}
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-medium)' }}
               >
-                <img src="https://upload.wikimedia.org/wikipedia/sco/2/21/Nvidia_logo.svg" alt="NVIDIA" className="w-10 h-10 object-contain" loading="lazy" />
+                <img src="https://upload.wikimedia.org/wikipedia/sco/2/21/Nvidia_logo.svg" alt="NVIDIA" className="tech-logo w-10 h-10 object-contain" loading="lazy" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-base font-bold text-[var(--text)] leading-tight mb-1">{achievements[0].title}</p>
-                <p className="text-xs font-semibold mb-2" style={{ color: '#76b900' }}>{achievements[0].issuer}</p>
+                <p className="text-xs font-medium mb-2 text-[var(--text-secondary)]">{achievements[0].issuer}</p>
                 <p className="text-xs text-[var(--text-muted)] leading-relaxed">{achievements[0].description}</p>
                 <p className="text-[0.65rem] text-[var(--text-disabled)] font-mono mt-3">{achievements[0].date}</p>
               </div>
@@ -184,22 +177,19 @@ export default function Experience() {
           {/* Intel */}
           <div
             className="exp-card group relative rounded-2xl p-7 overflow-hidden transition-all duration-300"
-            style={{ background: 'linear-gradient(135deg, rgba(0,113,197,0.08), rgba(0,113,197,0.02), var(--bg-card))', border: '1px solid rgba(0,113,197,0.15)' }}
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-            <div className="absolute top-0 right-0 w-40 h-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: 'radial-gradient(circle at top right, rgba(0,113,197,0.2) 0%, transparent 70%)' }} />
-            <div className="absolute top-0 -left-full w-full h-full opacity-0 group-hover:opacity-100 group-hover:left-full transition-all duration-700 pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent, rgba(0,113,197,0.05), transparent)' }} />
 
             <div className="relative z-10 flex items-start gap-5">
               <div
                 className="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg, rgba(0,113,197,0.18), rgba(0,113,197,0.06))', border: '1px solid rgba(0,113,197,0.3)' }}
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-medium)' }}
               >
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg" alt="Intel" className="w-10 h-10 object-contain" loading="lazy" style={{ filter: 'brightness(1.5)' }} />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg" alt="Intel" className="tech-logo w-10 h-10 object-contain" loading="lazy"  />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-base font-bold text-[var(--text)] leading-tight mb-1">{achievements[1].title}</p>
-                <p className="text-xs font-semibold mb-2" style={{ color: '#0071c5' }}>{achievements[1].issuer}</p>
+                <p className="text-xs font-medium mb-2 text-[var(--text-secondary)]">{achievements[1].issuer}</p>
                 <p className="text-xs text-[var(--text-muted)] leading-relaxed">{achievements[1].description}</p>
                 <p className="text-[0.65rem] text-[var(--text-disabled)] font-mono mt-3">{achievements[1].date}</p>
               </div>

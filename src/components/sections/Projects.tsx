@@ -15,7 +15,7 @@ const PROJECTS: ProjectNode[] = [
     id: 'hyperflow', name: 'Hyperflow',
     description: 'AI-powered operating system for modern business workflows. Automation, agent orchestration, and intelligent process management at scale.',
     url: 'https://www.hyperflowos.com/', tags: ['AI Agents', 'Automation', 'Mastra'],
-    color: '#22d3a5', bg: 'rgba(34,211,165,0.07)', border: 'rgba(34,211,165,0.2)', glow: 'rgba(34,211,165,0.12)',
+    color: 'var(--accent)', bg: 'rgba(64,209,160,0.07)', border: 'rgba(64,209,160,0.2)', glow: 'rgba(64,209,160,0.12)',
     label: 'Core Contributor', x: 24, y: 28,
     tools: [
       { label: 'Mastra SDK', x: 5, y: 8 },
@@ -28,7 +28,7 @@ const PROJECTS: ProjectNode[] = [
     id: 'teamup', name: 'TeamUp',
     description: 'Team collaboration platform with AI-driven productivity insights for Mexican businesses.',
     url: 'https://www.teamup.mx/', tags: ['B2B', 'SaaS', 'Collaboration'],
-    color: '#8b5cf6', bg: 'rgba(139,92,246,0.07)', border: 'rgba(139,92,246,0.2)', glow: 'rgba(139,92,246,0.12)',
+    color: 'var(--accent-2)', bg: 'rgba(151,134,210,0.07)', border: 'rgba(151,134,210,0.2)', glow: 'rgba(151,134,210,0.12)',
     label: 'B2B SaaS', x: 76, y: 22,
     tools: [
       { label: 'React SPA', x: 92, y: 5 },
@@ -40,7 +40,7 @@ const PROJECTS: ProjectNode[] = [
     id: 'productlink', name: 'ProductLink',
     description: 'Digital product catalog and commerce solution for SMBs. Streamlined product management.',
     url: 'https://www.productlink.mx/', tags: ['E-commerce', 'B2B', 'Catalog'],
-    color: '#f97316', bg: 'rgba(249,115,22,0.07)', border: 'rgba(249,115,22,0.2)', glow: 'rgba(249,115,22,0.12)',
+    color: 'var(--accent-3)', bg: 'rgba(217,146,89,0.07)', border: 'rgba(217,146,89,0.2)', glow: 'rgba(217,146,89,0.12)',
     label: 'E-commerce', x: 22, y: 74,
     tools: [
       { label: 'Catalog API', x: 5, y: 94 },
@@ -52,7 +52,7 @@ const PROJECTS: ProjectNode[] = [
     id: 'nvem', name: 'Nvem',
     description: 'Modern platform built with a cutting-edge TypeScript stack, showcasing scalable architecture patterns.',
     url: 'https://nvem.vercel.app/', tags: ['TypeScript', 'Vercel', 'Modern Stack'],
-    color: '#3b82f6', bg: 'rgba(59,130,246,0.07)', border: 'rgba(59,130,246,0.2)', glow: 'rgba(59,130,246,0.12)',
+    color: 'var(--accent-4)', bg: 'rgba(114,153,213,0.07)', border: 'rgba(114,153,213,0.2)', glow: 'rgba(114,153,213,0.12)',
     label: 'Web App', x: 76, y: 76,
     tools: [
       { label: 'Edge Functions', x: 95, y: 62 },
@@ -150,7 +150,7 @@ export default function Projects() {
                     style={{
                       background: isActive ? `${proj.color}15` : 'rgba(255,255,255,0.03)',
                       border: `1px solid ${isActive ? `${proj.color}40` : 'rgba(255,255,255,0.06)'}`,
-                      boxShadow: isActive ? `0 0 12px ${proj.glow}` : 'none',
+                      boxShadow: 'none',
                     }}
                   >
                     <div className="flex items-center gap-1.5">
@@ -192,7 +192,7 @@ export default function Projects() {
                   style={{
                     background: proj.bg,
                     border: `1px solid ${isActive ? proj.color : proj.border}`,
-                    boxShadow: isActive ? `0 0 30px ${proj.glow}, 0 8px 32px rgba(0,0,0,0.4)` : '0 4px 16px rgba(0,0,0,0.2)',
+                    boxShadow: isActive ? '0 16px 48px rgba(0,0,0,0.5)' : '0 4px 16px rgba(0,0,0,0.25)',
                   }}
                 >
                   <div>

@@ -29,12 +29,12 @@ interface FocusNode {
 }
 
 const FOCUS_NODES: FocusNode[] = [
-  { id: 'agents',     label: 'AI Agents',           sub: 'LangChain · Mastra · Autonomous orchestration',  color: '#3b82f6', bg: 'rgba(59,130,246,0.08)',  border: 'rgba(59,130,246,0.3)',  glow: 'rgba(59,130,246,0.15)', x: 12, y: 20 },
-  { id: 'rag',        label: 'RAG Systems',         sub: 'Context-aware retrieval · Chunking · Reranking', color: '#22d3a5', bg: 'rgba(34,211,165,0.08)',  border: 'rgba(34,211,165,0.3)',  glow: 'rgba(34,211,165,0.15)', x: 50, y: 10 },
-  { id: 'workflows',  label: 'Workflow Automation',  sub: 'Multi-step pipelines · Event-driven triggers',  color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.3)', glow: 'rgba(245,158,11,0.15)', x: 88, y: 20 },
-  { id: 'embeddings', label: 'Embeddings & Context', sub: 'pgvector · Semantic search · Similarity index', color: '#8b5cf6', bg: 'rgba(139,92,246,0.08)', border: 'rgba(139,92,246,0.3)', glow: 'rgba(139,92,246,0.15)', x: 22, y: 68 },
-  { id: 'evals',      label: 'Model Evaluations',   sub: 'LangSmith traces · Custom evals · Benchmarks',  color: '#f43f5e', bg: 'rgba(244,63,94,0.08)',  border: 'rgba(244,63,94,0.3)',  glow: 'rgba(244,63,94,0.15)',  x: 55, y: 82 },
-  { id: 'b2b',        label: 'B2B Product AI',      sub: 'Revenue features · User-facing AI · SaaS',      color: '#06b6d4', bg: 'rgba(6,182,212,0.08)',  border: 'rgba(6,182,212,0.3)',  glow: 'rgba(6,182,212,0.15)',  x: 85, y: 66 },
+  { id: 'agents',     label: 'AI Agents',           sub: 'LangChain · Mastra · Autonomous orchestration',  color: 'var(--accent-4)', bg: 'rgba(114,153,213,0.08)',  border: 'rgba(114,153,213,0.3)',  glow: 'rgba(114,153,213,0.15)', x: 12, y: 20 },
+  { id: 'rag',        label: 'RAG Systems',         sub: 'Context-aware retrieval · Chunking · Reranking', color: 'var(--accent)', bg: 'rgba(64,209,160,0.08)',  border: 'rgba(64,209,160,0.3)',  glow: 'rgba(64,209,160,0.15)', x: 50, y: 10 },
+  { id: 'workflows',  label: 'Workflow Automation',  sub: 'Multi-step pipelines · Event-driven triggers',  color: 'var(--accent-3)', bg: 'rgba(217,146,89,0.08)', border: 'rgba(217,146,89,0.3)', glow: 'rgba(217,146,89,0.15)', x: 88, y: 20 },
+  { id: 'embeddings', label: 'Embeddings & Context', sub: 'pgvector · Semantic search · Similarity index', color: 'var(--accent-2)', bg: 'rgba(151,134,210,0.08)', border: 'rgba(151,134,210,0.3)', glow: 'rgba(151,134,210,0.15)', x: 22, y: 68 },
+  { id: 'evals',      label: 'Model Evaluations',   sub: 'LangSmith traces · Custom evals · Benchmarks',  color: '#c08292', bg: 'rgba(192,130,146,0.08)',  border: 'rgba(192,130,146,0.3)',  glow: 'rgba(192,130,146,0.15)',  x: 55, y: 82 },
+  { id: 'b2b',        label: 'B2B Product AI',      sub: 'Revenue features · User-facing AI · SaaS',      color: '#79aab5', bg: 'rgba(121,170,181,0.08)',  border: 'rgba(121,170,181,0.3)',  glow: 'rgba(121,170,181,0.15)',  x: 85, y: 66 },
 ]
 
 const FOCUS_EDGES: [string, string][] = [
@@ -146,7 +146,7 @@ function FocusNetwork() {
                 style={{
                   background: node.bg,
                   borderColor: isHighlighted ? node.color : node.border,
-                  boxShadow: isHighlighted ? `0 0 24px ${node.glow}, 0 4px 16px rgba(0,0,0,0.3)` : 'none',
+                  boxShadow: isHighlighted ? '0 8px 28px rgba(0,0,0,0.5)' : 'none',
                 }}
               >
                 <div className="flex items-center gap-2 mb-0.5">
@@ -244,7 +244,7 @@ export default function About() {
 
   return (
     <section id="about" ref={containerRef} className="section bg-[var(--bg-base)] relative overflow-hidden">
-      <NeuralReveal color={[34, 211, 165]} count={50} />
+      <NeuralReveal color={[234, 232, 228]} count={50} />
       <div className="max-w-[1280px] mx-auto relative z-10">
 
         <div className="about-label section-label">About</div>
@@ -270,12 +270,10 @@ export default function About() {
             className="about-card tilt-card group relative p-7 md:p-8 overflow-hidden transition-all duration-300"
             style={{ gridColumn: 'span 2', background: 'var(--bg-card)' }}
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-            <div className="absolute top-0 right-0 w-32 h-32 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: 'radial-gradient(circle at top right, rgba(34,211,165,0.15) 0%, transparent 70%)' }} />
 
             <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-4 block relative z-10">Who I am</span>
             <p className="text-lg md:text-xl font-medium text-[var(--text)] leading-relaxed mb-4 relative z-10">
-              I'm <span className="text-[var(--accent)] font-semibold">Manuel Cortez</span>, an AI software
+              I'm <span className="text-[var(--text)] font-semibold">Manuel Cortez</span>, an AI software
               developer crafting intelligent agents, automated workflows, and
               RAG systems that drive real business impact.
             </p>
@@ -291,8 +289,6 @@ export default function About() {
             className="about-card tilt-card group relative p-7 overflow-hidden transition-all duration-300"
             style={{ background: 'var(--bg-card)', minHeight: 200 }}
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-            <div className="absolute top-0 right-0 w-28 h-28 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: 'radial-gradient(circle at top right, rgba(59,130,246,0.15) 0%, transparent 70%)' }} />
 
             <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-3 block relative z-10">Location</span>
             <h3 className="text-2xl md:text-3xl font-bold text-[var(--text)] leading-tight relative z-10">Monterrey, MX</h3>
@@ -308,7 +304,7 @@ export default function About() {
                     width: dot.active ? 6 : 3, height: dot.active ? 6 : 3,
                     background: dot.active ? 'var(--accent)' : 'var(--text-muted)',
                     opacity: dot.active ? 1 : 0.5,
-                    boxShadow: dot.active ? '0 0 12px var(--accent), 0 0 24px var(--accent-glow)' : 'none',
+                    boxShadow: 'none',
                   }}
                 />
               ))}
@@ -331,7 +327,6 @@ export default function About() {
             className="about-card group relative p-7 md:p-8 overflow-hidden"
             style={{ gridColumn: 'span 3', background: 'var(--bg-card)' }}
           >
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
             <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-2 block relative z-10">What I Focus On</span>
             <FocusNetwork />
           </div>

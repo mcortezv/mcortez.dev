@@ -27,29 +27,31 @@
   --border-focus:    rgba(34, 211, 165, 0.4);
   --hairline:        rgba(255, 255, 255, 0.105);
 
-  /* Text — off-white cálido: baja el contraste duro sobre negro */
+  /* Text — el hero luce porque tiene material claro, no color. Estos
+     niveles suben el brillo del texto de seccion a rangos legibles:
+     secondary 8.6:1, muted 5.5:1 sobre el fondo base. */
   --text:            #eae8e4;
-  --text-secondary:  #8f8d89;
-  --text-muted:      #5c5a57;
-  --text-disabled:   #2e2d2b;
+  --text-secondary:  #adaba6;
+  --text-muted:      #8a8782;
+  --text-disabled:   #565450;
 
   /* Accent - Teal desaturado (menos neón) */
-  --accent:          #4fbf9a;
+  --accent:          #40d1a0;
   --accent-soft:     #7fd4b8;
-  --accent-dim:      rgba(79, 191, 154, 0.09);
-  --accent-glow:     rgba(79, 191, 154, 0.20);
+  --accent-dim:      rgba(84, 205, 165, 0.09);
+  --accent-glow:     rgba(84, 205, 165, 0.20);
 
-  /* Accent 2 - Purple */
-  --accent-2:        #8b5cf6;
-  --accent-2-dim:    rgba(139, 92, 246, 0.10);
+  /* Accent 2 - Lavanda apagada */
+  --accent-2:        #9786d2;
+  --accent-2-dim:    rgba(155, 143, 196, 0.09);
 
-  /* Accent 3 - Orange */
-  --accent-3:        #f97316;
-  --accent-3-dim:    rgba(249, 115, 22, 0.10);
+  /* Accent 3 - Ámbar apagado */
+  --accent-3:        #d99259;
+  --accent-3-dim:    rgba(194, 146, 106, 0.09);
 
-  /* Accent 4 - Blue */
-  --accent-4:        #3b82f6;
-  --accent-4-dim:    rgba(59, 130, 246, 0.10);
+  /* Accent 4 - Acero apagado */
+  --accent-4:        #7299d5;
+  --accent-4-dim:    rgba(127, 154, 196, 0.09);
 
   /* ── Motion tokens (escala tipo transitions.dev) ── */
   --dur-instant:     100ms;
@@ -248,10 +250,10 @@ body {
 
 .text-h1 {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(1.9rem, 3.6vw, 3.125rem);
-  font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: -0.018em;
+  font-size: clamp(2.15rem, 4.5vw, 3.9rem);
+  font-weight: 590;
+  line-height: 1.08;
+  letter-spacing: -0.021em;
   color: var(--text);
 }
 
@@ -306,9 +308,10 @@ body {
   transform: translateY(-2px);
 }
 
+/* Sin halo de acento: el realce es el borde, igual que en la ventana */
 .card-glow:hover {
-  box-shadow: 0 0 0 1px var(--accent-glow), 0 20px 60px rgba(0, 0, 0, 0.5);
-  border-color: rgba(34, 211, 165, 0.2);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  border-color: var(--border-strong);
 }
 
 /* ─── Button Styles ──────────────────────────────────────── */
@@ -364,15 +367,17 @@ body {
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
+  padding: 0.22rem 0.65rem;
+  border-radius: 6px;
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.01em;
-  background: var(--bg-card-2);
+  background: rgba(255, 255, 255, 0.028);
   color: var(--text-secondary);
   border: 1px solid var(--border);
   white-space: nowrap;
+  transition: border-color var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
 }
 
 /* ─── Nav Link ───────────────────────────────────────────── */
@@ -399,12 +404,19 @@ body {
   border-top: 1px solid var(--border);
 }
 
-/* ─── Gradient Text ──────────────────────────────────────── */
+/* ─── Énfasis de titular ─────────────────────────────────────
+   Antes era texto en degradado. Ahora sigue la jerarquía del hero: el
+   titular va en secundario y la palabra clave en blanco. El acento se
+   reserva para las etiquetas mono pequeñas, como en la ventana. */
+.section h2.text-h1,
+.section h2.text-hero {
+  color: var(--text-secondary);
+}
+
 .text-gradient-accent {
-  background: linear-gradient(135deg, var(--accent), #3ecf8e);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: none;
+  color: var(--text);
+  -webkit-text-fill-color: currentColor;
 }
 
 /* ─── Animated underline ─────────────────────────────────── */
@@ -932,4 +944,53 @@ body {
   .hero-title { margin-bottom: 1.35rem; }
   .hero-divider { margin-bottom: 1.35rem; }
   .hero-main > p:last-of-type { margin-bottom: 1.65rem; }
+}
+
+/* ─── Logos de marca ───────────────────────────────────────
+   Los logos a todo color eran lo más ruidoso una vez calmado el resto.
+   Se desaturan en reposo y recuperan color al pasar por encima: siguen
+   siendo reconocibles sin competir con la tipografía. */
+.tech-logo {
+  filter: saturate(0.45) brightness(0.92);
+  transition: filter var(--dur-base) var(--ease-standard);
+}
+.group:hover .tech-logo,
+.tech-logo:hover {
+  filter: saturate(1) brightness(1);
+}
+
+/* ─── Navegacion de pistas del modal ───────────────────────
+   Discreta a proposito: vive en la linea de "Now Playing" y solo se
+   despierta al pasar por encima. */
+.music-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--text-disabled);
+  transition: color var(--dur-base) var(--ease-standard);
+}
+.music-nav:hover { color: var(--text-muted); }
+
+.music-nav button {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-standard),
+              background var(--dur-fast) var(--ease-standard);
+}
+.music-nav button:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
 }

@@ -24,19 +24,19 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-[var(--bg-base)]" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-      {/* Gradient accent line */}
+      {/* Hairline superior */}
       <div
         ref={borderRef}
         className="absolute top-0 left-0 right-0 h-px"
         style={{
-          background: 'linear-gradient(90deg, transparent 0%, var(--accent-dim) 20%, var(--accent) 50%, var(--accent-dim) 80%, transparent 100%)',
+          background: 'var(--border)',
           opacity: 0.15,
         }}
       />
 
       <div className="max-w-[1280px] mx-auto px-6 md:px-10 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 rounded-md bg-[var(--accent)] flex items-center justify-center">
+          <div className="w-6 h-6 rounded-md bg-[var(--text)] flex items-center justify-center">
             <span className="text-[#0a0a0a] font-black text-[10px]">MC</span>
           </div>
           <span className="text-xs text-[var(--text-muted)] font-mono">
