@@ -142,12 +142,12 @@ function FocusNetwork() {
               onMouseLeave={() => setHovered(null)}
             >
               <div
-                className="px-3.5 py-2 rounded-lg border backdrop-blur-sm"
+                className={`focus-node px-3.5 py-2 rounded-lg border backdrop-blur-sm ${isHighlighted ? 'focus-node--on' : ''}`}
                 style={{
+                  '--tone': node.color,
                   background: node.bg,
                   borderColor: isHighlighted ? node.color : node.border,
-                  boxShadow: isHighlighted ? '0 8px 28px rgba(0,0,0,0.5)' : 'none',
-                }}
+                } as React.CSSProperties}
               >
                 <div className="flex items-center gap-2 mb-0.5">
                   <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: node.color }} />

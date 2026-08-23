@@ -129,14 +129,14 @@ export default function Experience() {
               <p className="text-xs text-[var(--text-secondary)] mt-1 leading-snug">B.S. Computer Software Engineering<br />Instituto Tecnológico de Sonora</p>
               <div className="flex flex-wrap gap-1.5 mt-4">
                 {education.subjects.map((s) => (
-                  <span key={s} className="font-mono text-[0.6rem] text-[var(--text-secondary)] px-2 py-0.5 rounded border border-[var(--border)]" style={{ background: 'var(--accent-2-dim)' }}>{s}</span>
+                  <span key={s} className="tone-tile font-mono text-[0.6rem] text-[var(--text-secondary)] px-2 py-0.5 rounded" style={{ '--tone': 'var(--accent-2)' } as React.CSSProperties}>{s}</span>
                 ))}
               </div>
             </div>
 
             <div className="relative z-10 mt-6">
               <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: 'var(--border)' }}>
-                <div ref={progressRef} className="h-full rounded-full relative" style={{ width: 0, background: 'linear-gradient(90deg, var(--accent-2), rgba(151,134,210,0.4))' }}>
+                <div ref={progressRef} className="tone-meter h-full rounded-full relative" style={{ width: 0, background: 'linear-gradient(90deg, var(--accent-2), rgba(151,134,210,0.4))' }}>
                   <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full" style={{ background: 'var(--accent-2)' }} />
                 </div>
               </div>

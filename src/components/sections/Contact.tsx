@@ -208,10 +208,16 @@ export default function Contact() {
           will-change: transform;
         }
 
+        /* El box-shadow se declara completo aqui a proposito: este <style> se
+           inyecta despues de index.css y pisaria el aro interior del sistema
+           de tarjetas si solo declarara la sombra proyectada. */
         .cc-card:hover {
           background: var(--bg-card-hover);
-          border-color: rgba(79, 191, 154, 0.2);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+          border-color: var(--border-strong);
+          box-shadow:
+            inset 0 0 0 1px var(--border-strong),
+            inset 0 0 0 999px rgba(255, 255, 255, 0.022),
+            0 20px 60px rgba(0,0,0,0.5);
         }
 
         /* Grid pattern on hover */
@@ -316,6 +322,7 @@ export default function Contact() {
         }
         .cc-card:hover .cc-arrow {
           color: var(--accent);
+          filter: saturate(1.5) brightness(1.14);
           transform: translateX(4px);
         }
 

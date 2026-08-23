@@ -43,14 +43,14 @@ const levelWidth = (l: TechItem['level']) => l === 'core' ? '100%' : l === 'prof
 
 const LevelBar = ({ level, color }: { level: TechItem['level']; color: string }) => (
   <div className="w-8 h-1 rounded-full overflow-hidden flex-shrink-0" style={{ background: 'var(--border-medium)' }}>
-    <div className="h-full rounded-full" style={{ width: levelWidth(level), background: color, opacity: 0.7 }} />
+    <div className="level-bar h-full rounded-full" style={{ width: levelWidth(level), background: color }} />
   </div>
 )
 
 const CellLabel = ({ text, color }: { text: string; color: string }) => (
   <span
-    className="font-mono text-[0.6rem] tracking-[0.14em] uppercase mb-4 inline-block"
-    style={{ color }}
+    className="cell-label font-mono text-[0.6rem] tracking-[0.14em] uppercase mb-4 inline-block"
+    style={{ '--label': color } as React.CSSProperties}
   >
     {text}
   </span>
@@ -174,7 +174,7 @@ export default function Stack() {
           }}
         >
           {/* AI/ML — 2 cols */}
-          <div className="stack-cell card-light flex flex-col p-6 md:p-8 min-h-[220px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6 md:p-8 min-h-[220px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)', '--card-accent': 'var(--accent)' } as React.CSSProperties}>
             <CellLabel text="AI / ML Stack" color="var(--accent)" />
             <AIPipelineViz />
             <div className="space-y-2.5 mt-auto">
@@ -195,7 +195,7 @@ export default function Stack() {
           </div>
 
           {/* Languages */}
-          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)', '--card-accent': 'var(--accent)' } as React.CSSProperties}>
             <CellLabel text="Languages" color="var(--accent)" />
             <div className="space-y-4 mt-auto">
               {LANGS.map(t => (
@@ -214,7 +214,7 @@ export default function Stack() {
           </div>
 
           {/* Framework */}
-          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)', '--card-accent': 'var(--accent-2)' } as React.CSSProperties}>
             <CellLabel text="Framework" color="var(--accent-2)" />
             {FW.map(t => (
               <div key={t.name} className="mt-auto">
@@ -227,18 +227,18 @@ export default function Stack() {
                 </div>
                 <p className="text-[0.68rem] text-[var(--text-muted)]">{t.description}</p>
                 <div className="mt-4 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(151,134,210,0.12)' }}>
-                  <div className="h-full rounded-full" style={{ width: '95%', background: 'rgba(151,134,210,0.6)' }} />
+                  <div className="tone-meter h-full rounded-full" style={{ width: '95%', background: 'var(--accent-2)', opacity: 0.72 }} />
                 </div>
               </div>
             ))}
           </div>
 
           {/* Database — 2 cols */}
-          <div className="stack-cell card-light flex flex-col p-6 md:p-8 min-h-[180px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6 md:p-8 min-h-[180px]" style={{ gridColumn: '1 / 3', background: 'var(--bg-card)', '--card-accent': 'var(--accent-4)' } as React.CSSProperties}>
             <CellLabel text="Database" color="var(--accent-4)" />
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-auto">
               {DB.map(t => (
-                <div key={t.name} className="p-3 rounded-lg flex flex-col gap-2" style={{ background: 'rgba(114,153,213,0.06)', border: '1px solid rgba(114,153,213,0.14)' }}>
+                <div key={t.name} className="tone-tile p-3 rounded-lg flex flex-col gap-2" style={{ '--tone': 'var(--accent-4)' } as React.CSSProperties}>
                   <div className="flex items-center gap-2">
                     <Logo name={t.name} />
                     <span className="text-sm font-bold text-[var(--text)] leading-tight">{t.name}</span>
@@ -250,7 +250,7 @@ export default function Stack() {
           </div>
 
           {/* Infrastructure */}
-          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)', '--card-accent': 'var(--accent-3)' } as React.CSSProperties}>
             <CellLabel text="Infrastructure" color="var(--accent-3)" />
             <div className="space-y-3 mt-auto">
               {INFRA.map(t => (
@@ -269,7 +269,7 @@ export default function Stack() {
           </div>
 
           {/* Tools */}
-          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)' }}>
+          <div className="stack-cell card-light flex flex-col p-6" style={{ background: 'var(--bg-card)', '--card-accent': '#9d9a94' } as React.CSSProperties}>
             <CellLabel text="Tools" color="var(--text-muted)" />
             <div className="space-y-3 mt-auto">
               {TOOLS.map(t => (

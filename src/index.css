@@ -53,6 +53,14 @@
   --accent-4:        #7299d5;
   --accent-4-dim:    rgba(127, 154, 196, 0.09);
 
+  /* ── Acento por tarjeta ──────────────────────────────────────
+     Tono de reserva del *contenido* de una tarjeta: chips, etiquetas de
+     categoria y titulos que suben a su color real al pasar el cursor. No
+     pinta la superficie — una tarjeta no se tine nunca. Cada tarjeta puede
+     pisarlo con su propio tono (color del proyecto, categoria del paper,
+     categoria del stack). */
+  --card-accent:     var(--accent);
+
   /* ── Motion tokens (escala tipo transitions.dev) ── */
   --dur-instant:     100ms;
   --dur-fast:        160ms;
@@ -321,20 +329,22 @@ body {
   transition: border-color var(--dur-base) var(--ease-out),
               background var(--dur-base) var(--ease-out),
               box-shadow var(--dur-base) var(--ease-out),
-              transform var(--dur-base) var(--ease-out);
+              translate var(--dur-base) var(--ease-out);
 }
 
+/* Sin halo de acento: el realce de la superficie es blanco y el borde, igual
+   que en la ventana del hero. El color lo aporta el contenido. */
 .card:hover {
+  transition-duration: var(--dur-fast);
   border-color: var(--border-medium);
   background: var(--bg-card-hover);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
-  transform: translateY(-2px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  translate: 0 -3px;
 }
 
-/* Sin halo de acento: el realce es el borde, igual que en la ventana */
 .card-glow:hover {
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
   border-color: var(--border-strong);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.55);
 }
 
 /* ─── Button Styles ──────────────────────────────────────── */
@@ -400,6 +410,7 @@ body {
   border: 1px solid var(--border);
   white-space: nowrap;
   transition: border-color var(--dur-fast) var(--ease-standard),
+              background var(--dur-fast) var(--ease-standard),
               color var(--dur-fast) var(--ease-standard);
 }
 
@@ -464,10 +475,15 @@ body {
 .word { display: inline-block; overflow: hidden; }
 .char { display: inline-block; }
 
-/* ─── Luz de tarjeta que sigue al cursor ─────────────────────
+/* ─── Luz de tarjeta que sigue al cursor ───────────────────
    Antes esto era un tilt 3D. Al rotar, el borde de la tarjeta se despegaba
    y dejaba un hueco contra el fondo. Un degradado radial no tiene bordes:
    se puede mover su centro sin que nada quede al descubierto.
+
+   La luz es blanca a proposito. La tarjeta no se tine de ningun color: lo
+   que sube de color al pasar el cursor son las piezas que ya lo tienen
+   — logos, barras de nivel, chips, etiquetas de categoria — que en reposo
+   van desaturadas y al hover llegan a su color real.
 
    `isolation` crea contexto de apilado propio, asi el z-index -1 de la luz
    queda por encima del fondo de la tarjeta pero por debajo del contenido,
@@ -485,43 +501,155 @@ body {
   pointer-events: none;
   opacity: 0;
   background: radial-gradient(
-    circle 320px at var(--mx, 50%) var(--my, 50%),
-    rgba(255, 255, 255, 0.055) 0%,
-    rgba(255, 255, 255, 0.022) 32%,
-    transparent 68%
+    circle 340px at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.085) 0%,
+    rgba(255, 255, 255, 0.032) 38%,
+    transparent 72%
   );
   transition: opacity var(--dur-slow) var(--ease-out);
 }
 
-.card-light:hover::before { opacity: 1; }
+/* Entra rapido y sale despacio: la respuesta se siente inmediata sin que
+   el rastro parpadee al recorrer una rejilla de tarjetas. */
+.card-light:hover::before {
+  opacity: 1;
+  transition-duration: var(--dur-fast);
+}
 
 /* Respuesta al hover, contenida: elevacion en las tarjetas sueltas. Las
-   celdas de rejilla (Stack, Research) se quedan quietas porque viven en
-   juntas de 1px y el desplazamiento romperia las costuras — ahi la
-   respuesta la da la luz. Los transform van en CSS a proposito: el fondo
-   de estas tarjetas es inline y no se puede pisar desde aqui. */
+   celdas de rejilla (Stack, Research, About, Experience) se quedan quietas
+   porque viven en juntas de 1px y el desplazamiento romperia las costuras
+   — ahi la respuesta la dan la luz, el aro y el contenido que sube de color.
+
+   El aro y el realce van como box-shadow interior a proposito: el fondo y el
+   borde de estas celdas se declaran inline y no se pueden pisar desde aqui,
+   pero una sombra interior se pinta encima del fondo (y debajo de la luz y
+   del contenido), asi que entra igual. El spread gigante del segundo tramo
+   inunda toda la celda: eso levanta la superficie un paso, en blanco. */
+/* Las celdas de rejilla no transicionan `transform`: entran con
+   ScrollTrigger.batch animando y + scale + rotateX, y una transicion CSS
+   sobre la misma propiedad pelea con GSAP cuadro por cuadro — la celda se
+   queda clavada a medio camino en vez de llegar a su posicion final. Aqui
+   solo se mueve la sombra. */
+.stack-cell,
+.paper-cell {
+  transition: box-shadow var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
+}
+
+/* El levantamiento de las tarjetas sueltas va en `translate`, no en
+   `transform`. Son la misma transformacion visual, pero son propiedades
+   distintas: GSAP escribe `transform` en la entrada (y el efecto magnetico
+   de Contacto tambien), asi que dejarle `translate` al hover significa que
+   ninguno de los dos pisa al otro y ambos se componen. */
 .about-card,
 .exp-card,
 .cc-card,
 .proj-card {
-  transition: transform var(--dur-base) var(--ease-out),
-              box-shadow var(--dur-base) var(--ease-out);
+  transition: translate var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
 }
 
 .about-card:hover,
 .exp-card:hover,
 .cc-card:hover,
+.proj-card:hover,
+.stack-cell:hover,
+.paper-cell:hover {
+  transition-duration: var(--dur-fast);
+  box-shadow:
+    inset 0 0 0 1px var(--border-strong),
+    inset 0 0 0 999px rgba(255, 255, 255, 0.022);
+}
+
+/* Las tarjetas sueltas si se levantan y proyectan sombra. */
+.about-card:hover,
+.exp-card:hover,
+.cc-card:hover,
 .proj-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  translate: 0 -3px;
+  box-shadow:
+    inset 0 0 0 1px var(--border-strong),
+    inset 0 0 0 999px rgba(255, 255, 255, 0.022),
+    0 16px 44px rgba(0, 0, 0, 0.5);
 }
 
 /* Piezas pequenas: el borde reacciona, nada mas */
-.tag:hover,
 .hero-affil-mark {
   border-color: var(--border-strong);
 }
-.tag:hover { color: var(--text-secondary); }
+
+/* El tag si tenia hover declarado, pero pasaba de `text-secondary` a
+   `text-secondary`: no cambiaba nada. */
+.tag:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.055);
+  border-color: var(--border-strong);
+}
+
+/* ─── Chip de categoria ──────────────────────────────
+   Las etiquetas de categoria (paper, proyecto, estado) llevaban su color
+   cosido inline en hex + alfa, y un valor inline no se puede animar desde
+   CSS. Pasando solo el tono en `--chip`, el reposo y el hover se derivan
+   aqui: en reposo el chip va desaturado y con el color mezclado contra el
+   texto; al hover llega a su color pleno y el filtro le sube un poco mas el
+   croma. Eso es el brillo, sin salirse a neon radiactivo. */
+.chip {
+  --chip: var(--card-accent);
+  display: inline-flex;
+  align-items: center;
+  background: color-mix(in oklab, var(--chip) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--chip) 24%, transparent);
+  color: color-mix(in oklab, var(--chip) 78%, var(--text-secondary));
+  filter: saturate(0.75);
+  transition: background var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard),
+              color var(--dur-base) var(--ease-standard),
+              filter var(--dur-base) var(--ease-standard);
+}
+
+.group:hover .chip,
+.card:hover .chip,
+.stack-cell:hover .chip,
+.paper-cell:hover .chip,
+.about-card:hover .chip,
+.exp-card:hover .chip,
+.proj-card:hover .chip {
+  transition-duration: var(--dur-fast);
+  background: color-mix(in oklab, var(--chip) 22%, transparent);
+  border-color: color-mix(in oklab, var(--chip) 46%, transparent);
+  color: var(--chip);
+  filter: saturate(1.5) brightness(1.14);
+}
+
+/* Etiqueta de categoria de las celdas del stack: en reposo apagada contra
+   el gris de la celda, al pasar el cursor a su tono pleno. */
+.cell-label {
+  color: color-mix(in oklab, var(--label, var(--card-accent)) 62%, var(--text-muted));
+  filter: saturate(0.8);
+  transition: color var(--dur-base) var(--ease-standard),
+              filter var(--dur-base) var(--ease-standard);
+}
+.stack-cell:hover .cell-label {
+  color: var(--label, var(--card-accent));
+  filter: saturate(1.5) brightness(1.12);
+  transition-duration: var(--dur-fast);
+}
+
+/* Barra de nivel del stack: en reposo apagada, al pasar el cursor por la
+   celda llega a color pleno y con algo mas de croma. */
+.level-bar {
+  opacity: 0.62;
+  filter: saturate(0.85);
+  transition: opacity var(--dur-base) var(--ease-standard),
+              filter var(--dur-base) var(--ease-standard);
+}
+.stack-cell:hover .level-bar {
+  opacity: 1;
+  filter: saturate(1.5) brightness(1.12);
+  transition-duration: var(--dur-fast);
+}
 
 @media (hover: none) {
   .card-light::before { display: none; }
@@ -1025,12 +1153,72 @@ body {
    Se desaturan en reposo y recuperan color al pasar por encima: siguen
    siendo reconocibles sin competir con la tipografía. */
 .tech-logo {
-  filter: saturate(0.45) brightness(0.92);
+  filter: saturate(0.4) brightness(0.88);
   transition: filter var(--dur-base) var(--ease-standard);
 }
+
+/* El disparador era solo `.group:hover`, y las celdas del Stack y de Research
+   no llevan esa clase: ahi los logos nunca subian de color — habia que apuntar
+   al logo de 20px con el cursor. Ahora responde la tarjeta entera, y el paso
+   llega un poco por encima del color nominal para que se lea como que la pieza
+   se enciende, no solo que deja de estar apagada. */
 .group:hover .tech-logo,
+.stack-cell:hover .tech-logo,
+.paper-cell:hover .tech-logo,
+.about-card:hover .tech-logo,
+.exp-card:hover .tech-logo,
+.card:hover .tech-logo,
 .tech-logo:hover {
-  filter: saturate(1) brightness(1);
+  filter: saturate(1.45) brightness(1.1)
+          drop-shadow(0 0 8px rgba(255, 255, 255, 0.16));
+  transition-duration: var(--dur-fast);
+}
+
+/* ─── Placa de color dentro de una tarjeta ───────────────────
+   Los recuadros de Database y las etiquetas de materias del bloque de
+   Educacion llevaban su tono en rgba fijo, tan bajo que en reposo leian gris.
+   Con el tono en `--tone` el reposo se mantiene discreto y el hover de la
+   tarjeta los lleva a su color real. */
+.tone-tile {
+  background: color-mix(in oklab, var(--tone) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--tone) 16%, transparent);
+  transition: background var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard);
+}
+
+.stack-cell:hover .tone-tile,
+.exp-card:hover .tone-tile,
+.about-card:hover .tone-tile,
+.paper-cell:hover .tone-tile {
+  background: color-mix(in oklab, var(--tone) 19%, transparent);
+  border-color: color-mix(in oklab, var(--tone) 46%, transparent);
+  transition-duration: var(--dur-fast);
+}
+
+/* ─── Nodo del grafo de foco (About) ─────────────────────────
+   El nodo ya pasaba a su color pleno en el borde y la etiqueta, pero la pieza
+   se seguia leyendo apagada. El croma y un halo corto en su propio tono es lo
+   que la enciende — halo del nodo, no de la tarjeta que lo contiene. */
+.focus-node {
+  filter: saturate(0.85);
+  transition: filter var(--dur-base) var(--ease-standard),
+              box-shadow var(--dur-base) var(--ease-standard);
+}
+.focus-node--on {
+  filter: saturate(1.45) brightness(1.12);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5),
+              0 0 24px -6px color-mix(in oklab, var(--tone) 58%, transparent);
+}
+
+/* Barra de progreso / medidores de color: mismo principio. */
+.tone-meter {
+  filter: saturate(0.85);
+  transition: filter var(--dur-base) var(--ease-standard);
+}
+.exp-card:hover .tone-meter,
+.stack-cell:hover .tone-meter {
+  filter: saturate(1.5) brightness(1.12);
+  transition-duration: var(--dur-fast);
 }
 
 /* ─── Navegacion de pistas del modal ───────────────────────

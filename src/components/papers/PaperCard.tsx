@@ -6,10 +6,10 @@ interface PaperCardProps {
   featured?: boolean
 }
 
-const STATUS_STYLES: Record<Paper['status'], { label: string; style: React.CSSProperties }> = {
-  published:    { label: 'Published',    style: { background: 'rgba(64,209,160,0.1)', color: 'var(--accent)', border: '1px solid rgba(64,209,160,0.25)' } },
-  'in-progress':{ label: 'In Progress',  style: { background: 'rgba(217,146,89,0.1)', color: 'var(--accent-3)', border: '1px solid rgba(217,146,89,0.25)' } },
-  draft:        { label: 'Draft',        style: { background: 'rgba(136,136,136,0.08)', color: '#888', border: '1px solid rgba(136,136,136,0.15)' } },
+const STATUS_STYLES: Record<Paper['status'], { label: string; color: string }> = {
+  published:    { label: 'Published',   color: 'var(--accent)' },
+  'in-progress':{ label: 'In Progress', color: 'var(--accent-3)' },
+  draft:        { label: 'Draft',       color: '#8a8782' },
 }
 
 function formatDate(dateStr: string) {
@@ -26,19 +26,23 @@ export default function PaperCard({ paper, featured = false }: PaperCardProps) {
     return (
       <button
         onClick={handleClick}
-        className="w-full text-left card card-glow rounded-2xl p-7 md:p-9 group"
+        className="w-full text-left card card-glow card-light rounded-2xl p-7 md:p-9 group"
+        style={{ '--card-accent': paper.categoryColor } as React.CSSProperties}
       >
         <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
           <div>
             {/* Meta row */}
             <div className="flex flex-wrap items-center gap-2.5 mb-5">
               <span
-                className="text-[0.68rem] font-semibold px-2.5 py-1 rounded-md"
-                style={{ background: `${paper.categoryColor}18`, color: paper.categoryColor, border: `1px solid ${paper.categoryColor}30` }}
+                className="chip text-[0.68rem] font-semibold px-2.5 py-1 rounded-md"
+                style={{ '--chip': paper.categoryColor } as React.CSSProperties}
               >
                 {paper.category}
               </span>
-              <span className="text-micro text-[0.65rem] font-medium px-2 py-0.5 rounded-full" style={status.style}>
+              <span
+                className="chip text-micro text-[0.65rem] font-medium px-2 py-0.5 rounded-full"
+                style={{ '--chip': status.color } as React.CSSProperties}
+              >
                 {status.label}
               </span>
               <span className="text-micro text-[var(--text-disabled)] font-mono">
@@ -47,7 +51,7 @@ export default function PaperCard({ paper, featured = false }: PaperCardProps) {
             </div>
 
             {/* Title */}
-            <h3 className="text-h2 font-bold text-[var(--text)] mb-4 group-hover:text-[var(--accent)] transition-colors duration-200 leading-snug">
+            <h3 className="text-h2 font-bold text-[var(--text)] mb-4 group-hover:text-[var(--card-accent)] transition-colors duration-200 leading-snug">
               {paper.title}
             </h3>
 
@@ -97,23 +101,27 @@ export default function PaperCard({ paper, featured = false }: PaperCardProps) {
   return (
     <button
       onClick={handleClick}
-      className="w-full text-left card card-glow rounded-xl p-5 md:p-6 flex flex-col group h-full"
+      className="w-full text-left card card-glow card-light rounded-xl p-5 md:p-6 flex flex-col group h-full"
+      style={{ '--card-accent': paper.categoryColor } as React.CSSProperties}
     >
       {/* Category + status */}
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <span
-          className="text-[0.65rem] font-semibold px-2 py-0.5 rounded"
-          style={{ background: `${paper.categoryColor}18`, color: paper.categoryColor, border: `1px solid ${paper.categoryColor}30` }}
+          className="chip text-[0.65rem] font-semibold px-2 py-0.5 rounded"
+          style={{ '--chip': paper.categoryColor } as React.CSSProperties}
         >
           {paper.category}
         </span>
-        <span className="text-[0.62rem] font-medium px-1.5 py-0.5 rounded-full" style={status.style}>
+        <span
+          className="chip text-[0.62rem] font-medium px-1.5 py-0.5 rounded-full"
+          style={{ '--chip': status.color } as React.CSSProperties}
+        >
           {status.label}
         </span>
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-bold text-[var(--text)] mb-2.5 leading-snug group-hover:text-[var(--accent)] transition-colors duration-200 flex-1">
+      <h3 className="text-sm font-bold text-[var(--text)] mb-2.5 leading-snug group-hover:text-[var(--card-accent)] transition-colors duration-200 flex-1">
         {paper.title}
       </h3>
 
@@ -141,7 +149,7 @@ export default function PaperCard({ paper, featured = false }: PaperCardProps) {
         </div>
         <svg
           width="11" height="11" viewBox="0 0 11 11" fill="none"
-          className="text-[var(--text-muted)] group-hover:text-[var(--accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+          className="text-[var(--text-muted)] group-hover:text-[var(--card-accent)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
         >
           <path d="M1 10L10 1M10 1H5M10 1V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>

@@ -190,15 +190,16 @@ export default function Projects() {
                 <div
                   className="proj-card card-light rounded-xl overflow-hidden backdrop-blur-sm"
                   style={{
+                    '--card-accent': proj.color,
                     background: proj.bg,
                     border: `1px solid ${isActive ? proj.color : proj.border}`,
                     boxShadow: isActive ? '0 16px 48px rgba(0,0,0,0.5)' : '0 4px 16px rgba(0,0,0,0.25)',
-                  }}
+                  } as React.CSSProperties}
                 >
                   <div>
                     <div className="p-5">
                       <div className="flex items-center justify-between mb-3">
-                        <span className="inline-flex items-center gap-1.5 font-mono text-[0.55rem] tracking-[0.1em] uppercase px-2 py-0.5 rounded-md font-medium" style={{ background: `${proj.color}18`, color: proj.color, border: `1px solid ${proj.border}` }}>
+                        <span className="chip gap-1.5 font-mono text-[0.55rem] tracking-[0.1em] uppercase px-2 py-0.5 rounded-md font-medium" style={{ '--chip': proj.color } as React.CSSProperties}>
                           <span className="w-1.5 h-1.5 rounded-full" style={{ background: proj.color }} />
                           {proj.label}
                         </span>

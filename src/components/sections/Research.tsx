@@ -94,30 +94,20 @@ export default function Research() {
           {/* ─ Featured paper (col 1-3) ─ */}
           <button
             onClick={() => navigate(`/papers/${featured.slug}`)}
-            className="paper-cell group flex flex-col p-6 md:p-8 text-left min-h-[280px] transition-colors duration-150"
-            style={{ gridColumn: '1 / 4', background: 'var(--bg-card)' }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'var(--bg-card)')}
+            className="paper-cell card-light group flex flex-col p-6 md:p-8 text-left min-h-[280px]"
+            style={{ gridColumn: '1 / 4', background: 'var(--bg-card)', '--card-accent': featured.categoryColor } as React.CSSProperties}
           >
             {/* Meta */}
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <span
-                className="font-mono text-[0.6rem] tracking-[0.12em] uppercase px-2 py-0.5 rounded"
-                style={{
-                  background: `${featured.categoryColor}18`,
-                  color: featured.categoryColor,
-                  border: `1px solid ${featured.categoryColor}30`,
-                }}
+                className="chip font-mono text-[0.6rem] tracking-[0.12em] uppercase px-2 py-0.5 rounded"
+                style={{ '--chip': featured.categoryColor } as React.CSSProperties}
               >
                 {featured.category}
               </span>
               <span
-                className="font-mono text-[0.6rem] px-2 py-0.5 rounded-full"
-                style={{
-                  color: STATUS_COLORS[featured.status],
-                  background: `${STATUS_COLORS[featured.status]}15`,
-                  border: `1px solid ${STATUS_COLORS[featured.status]}28`,
-                }}
+                className="chip font-mono text-[0.6rem] px-2 py-0.5 rounded-full"
+                style={{ '--chip': STATUS_COLORS[featured.status] } as React.CSSProperties}
               >
                 {featured.status === 'in-progress' ? 'In Progress' : featured.status.charAt(0).toUpperCase() + featured.status.slice(1)}
               </span>
@@ -172,7 +162,7 @@ export default function Research() {
 
           {/* ─ Stats sidebar (col 4) ─ */}
           <div
-            className="paper-cell flex flex-col p-6"
+            className="paper-cell card-light flex flex-col p-6"
             style={{ gridColumn: '4', gridRow: '1', background: 'var(--bg-card)' }}
           >
             <span className="font-mono text-[0.6rem] tracking-[0.14em] text-[var(--text-muted)] uppercase mb-5">
@@ -210,19 +200,14 @@ export default function Research() {
             <button
               key={paper.slug}
               onClick={() => navigate(`/papers/${paper.slug}`)}
-              className="paper-cell group flex flex-col p-5 md:p-6 text-left min-h-[190px] transition-colors duration-150"
-              style={{ background: 'var(--bg-card)' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'var(--bg-card)')}
+              className="paper-cell card-light group flex flex-col p-5 md:p-6 text-left min-h-[190px]"
+              style={{ background: 'var(--bg-card)', '--card-accent': paper.categoryColor } as React.CSSProperties}
             >
               {/* Category */}
               <div className="flex items-center justify-between mb-3">
                 <span
-                  className="font-mono text-[0.58rem] tracking-[0.12em] uppercase px-1.5 py-0.5 rounded"
-                  style={{
-                    background: `${paper.categoryColor}15`,
-                    color: paper.categoryColor,
-                  }}
+                  className="chip font-mono text-[0.58rem] tracking-[0.12em] uppercase px-1.5 py-0.5 rounded"
+                  style={{ '--chip': paper.categoryColor } as React.CSSProperties}
                 >
                   {paper.category}
                 </span>
