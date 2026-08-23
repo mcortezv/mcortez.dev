@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="8" fill="#060606"/>
-  <text x="16" y="22" font-family="Inter, sans-serif" font-size="16" font-weight="900" fill="#22d3a5" text-anchor="middle">M</text>
+  <rect width="32" height="32" rx="7" fill="#eae8e4"/>
+  <text x="16" y="21" font-family="Inter, system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="13" font-weight="700" letter-spacing="-0.6" fill="#0a0a0a"
+        text-anchor="middle">MC</text>
 </svg>

@@ -11,6 +11,10 @@ gsap.registerPlugin(ScrollTrigger, SplitText, ScrollToPlugin, ScrambleTextPlugin
 CustomEase.create('smooth-out', '0.16, 1, 0.3, 1')
 CustomEase.create('reveal', '0.77, 0, 0.175, 1')
 CustomEase.create('smooth-in-out', '0.76, 0, 0.24, 1')
+// Escala transitions.dev — curvas cortas y precisas
+CustomEase.create('standard', '0.30, 0, 0.20, 1')
+CustomEase.create('entrance', '0.00, 0, 0.20, 1')
+CustomEase.create('exit',     '0.40, 0, 1.00, 1')
 
 export { gsap, ScrollTrigger, SplitText }
 
@@ -60,7 +64,7 @@ export function addMagneticEffect(el: HTMLElement, strength = 0.3) {
   }
 
   const handleLeave = () => {
-    gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' })
+    gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'smooth-out' })
   }
 
   el.addEventListener('mousemove', handleMove)
@@ -91,8 +95,8 @@ export function addTilt3D(el: HTMLElement, strength = 12) {
     gsap.to(el, {
       rotationY: 0,
       rotationX: 0,
-      duration: 0.7,
-      ease: 'elastic.out(1, 0.5)',
+      duration: 0.55,
+      ease: 'smooth-out',
     })
   }
 

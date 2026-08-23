@@ -94,7 +94,7 @@ export default function MusicModal({ onDone }: Props) {
         <div
           ref={backdropRef}
           className="fixed inset-0 flex items-center justify-center"
-          style={{ zIndex: 9990, background: '#060606' }}
+          style={{ zIndex: 9990, background: '#0a0a0a' }}
         >
           <div
             ref={modalRef}

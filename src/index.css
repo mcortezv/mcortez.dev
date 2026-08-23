@@ -12,29 +12,32 @@
 
 /* ─── Design System Variables ─────────────────────────────── */
 :root {
-  /* Backgrounds */
-  --bg-base:         #060606;
-  --bg-surface:      #0d0d0d;
-  --bg-card:         #111111;
-  --bg-card-hover:   #161616;
-  --bg-card-2:       #191919;
+  /* Backgrounds — neutral cálido, no negro puro (evita el look "AI") */
+  --bg-base:         #0a0a0a;
+  --bg-surface:      #0e0e0e;
+  --bg-card:         #121212;
+  --bg-card-hover:   #171717;
+  --bg-card-2:       #1a1a1a;
+  --bg-plate:        #0c0c0c;   /* placa sólida bajo texto sobre canvas */
 
-  /* Borders */
-  --border:          rgba(255, 255, 255, 0.06);
-  --border-medium:   rgba(255, 255, 255, 0.09);
-  --border-strong:   rgba(255, 255, 255, 0.14);
+  /* Borders — hairlines */
+  --border:          rgba(255, 255, 255, 0.07);
+  --border-medium:   rgba(255, 255, 255, 0.10);
+  --border-strong:   rgba(255, 255, 255, 0.16);
   --border-focus:    rgba(34, 211, 165, 0.4);
+  --hairline:        rgba(255, 255, 255, 0.105);
 
-  /* Text */
-  --text:            #ededed;
-  --text-secondary:  #888888;
-  --text-muted:      #555555;
-  --text-disabled:   #2a2a2a;
+  /* Text — off-white cálido: baja el contraste duro sobre negro */
+  --text:            #eae8e4;
+  --text-secondary:  #8f8d89;
+  --text-muted:      #5c5a57;
+  --text-disabled:   #2e2d2b;
 
-  /* Accent - Teal-Green */
-  --accent:          #22d3a5;
-  --accent-dim:      rgba(34, 211, 165, 0.10);
-  --accent-glow:     rgba(34, 211, 165, 0.22);
+  /* Accent - Teal desaturado (menos neón) */
+  --accent:          #4fbf9a;
+  --accent-soft:     #7fd4b8;
+  --accent-dim:      rgba(79, 191, 154, 0.09);
+  --accent-glow:     rgba(79, 191, 154, 0.20);
 
   /* Accent 2 - Purple */
   --accent-2:        #8b5cf6;
@@ -48,6 +51,19 @@
   --accent-4:        #3b82f6;
   --accent-4-dim:    rgba(59, 130, 246, 0.10);
 
+  /* ── Motion tokens (escala tipo transitions.dev) ── */
+  --dur-instant:     100ms;
+  --dur-fast:        160ms;
+  --dur-base:        240ms;
+  --dur-slow:        400ms;
+  --dur-slower:      640ms;
+
+  --ease-out:        cubic-bezier(0.16, 1, 0.30, 1);
+  --ease-in-out:     cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-standard:   cubic-bezier(0.30, 0, 0.20, 1);
+  --ease-entrance:   cubic-bezier(0.00, 0, 0.20, 1);
+  --ease-exit:       cubic-bezier(0.40, 0, 1, 1);
+
   /* Spacing */
   --section-x:       5rem;
   --section-x-mob:   1.25rem;
@@ -57,9 +73,9 @@
 
   /* Radii */
   --radius-sm:  6px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
 
   /* ── Academic / Paper theme ── */
   --paper-bg:         #f8f7f4;
@@ -75,6 +91,13 @@
   --paper-tag-bg:     rgba(0, 0, 0, 0.05);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 1ms; --dur-fast: 1ms; --dur-base: 1ms;
+    --dur-slow: 1ms; --dur-slower: 1ms;
+  }
+}
+
 /* ─── Base Reset ─────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -85,12 +108,15 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background: var(--bg-base);
   color: var(--text);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'cv05' 1, 'cv08' 1, 'ss03' 1, 'calt' 1;
   overflow-x: hidden;
   line-height: 1.6;
 }
@@ -98,6 +124,7 @@ body {
 /* Display / heading font */
 .font-display {
   font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: 'cv05' 1, 'cv08' 1, 'ss03' 1;
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────── */
@@ -124,8 +151,8 @@ body {
   height: 200%;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.028;
-  animation: grain 0.4s steps(1) infinite;
+  opacity: 0.022;
+  animation: grain 0.5s steps(1) infinite;
   z-index: 9999;
 }
 
@@ -147,18 +174,19 @@ body {
   position: fixed;
   top: 0; left: 0;
   width: 32px; height: 32px;
-  border: 1px solid rgba(34, 211, 165, 0.45);
+  border: 1px solid rgba(234, 232, 228, 0.28);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
   will-change: transform;
-  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: width var(--dur-base) var(--ease-out), height var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
 }
 
 .cursor-ring.hovering {
-  width: 48px; height: 48px;
-  border-color: var(--accent);
-  background: var(--accent-dim);
+  width: 44px; height: 44px;
+  border-color: rgba(234, 232, 228, 0.5);
+  background: rgba(234, 232, 228, 0.04);
 }
 
 @media (hover: none) {
@@ -184,54 +212,55 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--text-muted);
   margin-bottom: 1.25rem;
 }
 
 .section-label::before {
   content: '';
   display: block;
-  width: 20px;
+  width: 18px;
   height: 1px;
   background: var(--accent);
+  opacity: 0.7;
 }
 
 /* ─── Typography Scale ───────────────────────────────────── */
 .text-display {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(3.5rem, 9vw, 8rem);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  font-size: clamp(3.25rem, 8.2vw, 7.25rem);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.022em;
   color: var(--text);
 }
 
 .text-hero {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(2.8rem, 7vw, 6.5rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.025em;
+  font-size: clamp(2.6rem, 6.4vw, 5.75rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
   color: var(--text);
 }
 
 .text-h1 {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.9rem, 3.6vw, 3.125rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.018em;
   color: var(--text);
 }
 
 .text-h2 {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
+  font-size: clamp(1.45rem, 2.8vw, 2.125rem);
+  font-weight: 550;
+  line-height: 1.24;
+  letter-spacing: -0.014em;
   color: var(--text);
 }
 
@@ -264,13 +293,16 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: border-color var(--dur-base) var(--ease-out),
+              background var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
 }
 
 .card:hover {
-  border-color: var(--border-strong);
+  border-color: var(--border-medium);
   background: var(--bg-card-hover);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
   transform: translateY(-2px);
 }
 
@@ -286,19 +318,20 @@ body {
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
   background: var(--accent);
-  color: #060606;
+  color: #0a0a0a;
   font-size: 0.875rem;
   font-weight: 600;
   border-radius: var(--radius-md);
   border: none;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition: opacity var(--dur-fast) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
   text-decoration: none;
   white-space: nowrap;
 }
 
-.btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); transition-duration: var(--dur-instant); }
 
 .btn-ghost {
   display: inline-flex;
@@ -312,16 +345,20 @@ body {
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  transition: border-color var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard),
+              background var(--dur-fast) var(--ease-standard);
   text-decoration: none;
   white-space: nowrap;
 }
 
 .btn-ghost:hover {
-  border-color: var(--border-strong);
+  border-color: var(--border-medium);
   color: var(--text);
-  background: var(--bg-card);
+  background: rgba(255, 255, 255, 0.035);
 }
+
+.btn-ghost:active { transition-duration: var(--dur-instant); background: rgba(255, 255, 255, 0.055); }
 
 /* ─── Tag / Badge ────────────────────────────────────────── */
 .tag {
@@ -344,7 +381,7 @@ body {
   font-weight: 500;
   color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color var(--dur-fast) var(--ease-standard);
   cursor: pointer;
 }
 
@@ -381,7 +418,7 @@ body {
   left: 0; bottom: -1px;
   width: 0; height: 1px;
   background: var(--accent);
-  transition: width 0.25s ease;
+  transition: width var(--dur-base) var(--ease-out);
 }
 .hover-underline:hover::after { width: 100%; }
 
@@ -591,4 +628,308 @@ body {
 @keyframes music-dot-pulse {
   0%, 100% { opacity: 1;   transform: scale(1); }
   50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   HERO — ventana de aplicación
+   El contenido vive dentro de una ventana con chrome tipo macOS:
+   borde suave, esquinas redondeadas y fondo transparente para que
+   el plano de esquemas siga viéndose por detrás.
+   ═══════════════════════════════════════════════════════════ */
+
+.hero-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Placa: protege la columna de texto (izquierda) del canvas.
+   Sólida, no glass — la tipografía queda apoyada, no flotando. */
+.hero-plate {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(98deg,
+      rgba(10, 10, 10, 0.965) 0%,
+      rgba(10, 10, 10, 0.950) 38%,
+      rgba(10, 10, 10, 0.640) 53%,
+      rgba(10, 10, 10, 0.170) 70%,
+      rgba(10, 10, 10, 0.030) 100%);
+}
+
+/* Capa 2: rebaja el canvas en las bandas de chrome de la ventana */
+.hero-plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(10, 10, 10, 0.92) 0%,
+    rgba(10, 10, 10, 0.55) 10%,
+    rgba(10, 10, 10, 0.00) 18%,
+    rgba(10, 10, 10, 0.00) 84%,
+    rgba(10, 10, 10, 0.55) 94%,
+    rgba(10, 10, 10, 0.90) 100%);
+}
+
+@media (max-width: 1024px) {
+  /* En retrato las piezas viven en los huecos de arriba y abajo, no detrás
+     del texto: la placa cubre con fuerza la franja central y deja respirar
+     las bandas. Los porcentajes siguen al layout del hero en móvil. */
+  .hero-plate {
+    background:
+      linear-gradient(180deg,
+        rgba(10, 10, 10, 0.30) 0%,
+        rgba(10, 10, 10, 0.30) 20%,
+        rgba(10, 10, 10, 0.88) 26%,
+        rgba(10, 10, 10, 0.90) 71%,
+        rgba(10, 10, 10, 0.34) 76%,
+        rgba(10, 10, 10, 0.38) 100%);
+  }
+  .hero-plate::after { background: none; }
+}
+
+/* Vignette de borde */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 122% 104% at 50% 50%,
+      transparent 46%, rgba(10, 10, 10, 0.50) 80%, rgba(10, 10, 10, 0.88) 100%);
+}
+
+/* ─── Ventana ──────────────────────────────────────────── */
+.hero-window {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid rgba(255, 255, 255, 0.115);
+  border-radius: 18px;
+  background: transparent;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 30px 70px -28px rgba(0, 0, 0, 0.78);
+  overflow: hidden;
+}
+
+/* Barra de título */
+.hero-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: none;
+  height: 44px;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.016);
+}
+
+.hero-dots { display: flex; gap: 6.5px; flex: none; }
+.hero-dots i {
+  display: block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.135);
+}
+
+.hero-url {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 40px;
+  padding: 3px 14px;
+  background: rgba(255, 255, 255, 0.014);
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+/* Barra de estado inferior */
+.hero-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex: none;
+  min-height: 44px;
+  padding: 0.65rem 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.016);
+}
+
+/* Cuerpo: columna de contenido a la izquierda, plano libre a la derecha */
+.hero-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+}
+
+.hero-main {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 40rem;
+}
+
+/* ─── Tipografía del hero ──────────────────────────────── */
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.hero-title {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(3.25rem, 8.4vw, 7.5rem);
+  font-weight: 560;
+  line-height: 0.92;
+  letter-spacing: -0.032em;
+  color: var(--text);
+  font-feature-settings: 'cv05' 1, 'cv08' 1, 'ss03' 1;
+}
+
+.hero-line { display: block; overflow: hidden; }
+/* inline-block para que la caja se ajuste al texto: así se puede medir el
+   hueco que queda a su derecha en retrato. */
+.hero-title-ln { display: inline-block; will-change: transform; }
+
+/* Regla corta bajo el título */
+.hero-divider {
+  width: 68px;
+  height: 1px;
+  background: var(--border-strong);
+  transform-origin: left center;
+}
+
+/* ─── Botones del hero ─────────────────────────────────── */
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.3rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: 1px solid var(--border-medium);
+  border-radius: 9px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard),
+              background var(--dur-fast) var(--ease-standard);
+}
+.btn-hero:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: rgba(255, 255, 255, 0.035);
+}
+.btn-hero:active { transition-duration: var(--dur-instant); background: rgba(255, 255, 255, 0.06); }
+
+.btn-hero .btn-hero-arrow {
+  display: inline-block;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.btn-hero:hover .btn-hero-arrow { transform: translateX(3px); }
+
+.btn-hero--solid {
+  background: var(--text);
+  color: #0a0a0a;
+  border-color: var(--text);
+  font-weight: 550;
+}
+.btn-hero--solid:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #0a0a0a;
+}
+
+/* Botón sólido del navbar — mismo peso visual que el logo */
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--text);
+  color: #0a0a0a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  border: 1px solid var(--text);
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard);
+}
+.btn-nav:hover { background: #ffffff; border-color: #ffffff; }
+.btn-nav:active { transition-duration: var(--dur-instant); background: #dedbd6; border-color: #dedbd6; }
+
+/* Chip de afiliación */
+.hero-affil {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78125rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+.hero-affil:hover { color: var(--text-secondary); }
+.hero-affil .hero-affil-mark {
+  display: grid;
+  place-items: center;
+  width: 17px; height: 17px;
+  border-radius: 4px;
+  border: 1px solid var(--border-medium);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .hero-titlebar { height: 40px; padding: 0 0.85rem; gap: 0.75rem; }
+  .hero-url { font-size: 0.6rem; padding: 2px 10px; }
+  .hero-statusbar { flex-direction: column; align-items: flex-start; gap: 0.6rem; padding: 0.85rem 1rem; }
+}
+
+/* ─── Pantallas bajas (portátiles 1366×768 y similares) ────
+   Sin esto el contenido empuja la ventana más allá del alto del viewport y
+   la banda inferior del marco queda fuera de vista. */
+@media (min-width: 1024px) and (max-height: 880px) {
+  .hero-title {
+    font-size: clamp(3rem, min(7.6vw, 12.4vh), 6.25rem);
+    margin-bottom: 1.5rem;
+  }
+  .hero-body { padding: clamp(1.25rem, 2.6vw, 2.5rem); }
+  .hero-main > .hero-eyebrow { margin-bottom: 1.25rem; }
+  .hero-divider { margin-bottom: 1.5rem; }
+  .hero-main > p:last-of-type { margin-bottom: 1.75rem; }
+  .hero-titlebar { height: 40px; }
+  .hero-statusbar { min-height: 40px; padding-block: 0.5rem; }
+}
+
+/* ─── Retrato: contenido más compacto ──────────────────────
+   Las piezas del fondo viven en los huecos de arriba y abajo; apretando
+   un poco el bloque de texto esos huecos pasan de ~50px a ~75px, que es
+   la diferencia entre que una fórmula quepa o no. */
+@media (max-width: 640px) {
+  .hero-body { padding: 1.25rem 1.25rem; }
+  .hero-main > .hero-eyebrow { margin-bottom: 1.15rem; }
+  .hero-title { margin-bottom: 1.35rem; }
+  .hero-divider { margin-bottom: 1.35rem; }
+  .hero-main > p:last-of-type { margin-bottom: 1.65rem; }
 }

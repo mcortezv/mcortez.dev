@@ -39,8 +39,8 @@ export default function Navbar() {
     // ── Logo entrance — dramatic scale + blur ──
     if (logoRef.current) {
       gsap.from(logoRef.current, {
-        scale: 0.5, autoAlpha: 0,
-        duration: 0.8, ease: 'back.out(1.7)', delay: 0.3,
+        scale: 0.9, autoAlpha: 0,
+        duration: 0.7, ease: 'smooth-out', delay: 0.25,
       })
     }
 
@@ -85,12 +85,13 @@ export default function Navbar() {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b"
+        className="fixed top-0 left-0 right-0 z-50 border-b"
         style={{
-          background: scrolled || mobileOpen ? 'rgba(6,6,6,0.85)' : 'transparent',
+          background: scrolled || mobileOpen ? 'rgba(10,10,10,0.88)' : 'transparent',
           backdropFilter: scrolled || mobileOpen ? 'blur(24px)' : 'none',
           WebkitBackdropFilter: scrolled || mobileOpen ? 'blur(24px)' : 'none',
           borderColor: scrolled || mobileOpen ? 'var(--border)' : 'transparent',
+          transition: 'background var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard), backdrop-filter var(--dur-base) var(--ease-standard)',
           paddingTop: 'env(safe-area-inset-top, 0px)',
           paddingLeft: 'env(safe-area-inset-left, 0px)',
           paddingRight: 'env(safe-area-inset-right, 0px)',
@@ -98,11 +99,11 @@ export default function Navbar() {
       >
         <div className="flex items-center justify-between px-6 md:px-10 h-16 max-w-[1280px] mx-auto">
           <button ref={logoRef} onClick={() => handleNav('hero')} className="flex items-center gap-2.5 group magnetic">
-            <div className="w-7 h-7 rounded-lg bg-[var(--accent)] flex items-center justify-center">
-              <span className="text-[#060606] font-black text-xs">MC</span>
+            <div className="w-7 h-7 rounded-md bg-[var(--text)] flex items-center justify-center">
+              <span className="text-[#0a0a0a] font-bold text-[0.65rem] tracking-tight">MC</span>
             </div>
             <span className="font-display font-semibold text-sm text-[var(--text)] hidden sm:block">
-              Manuel Cortez
+              mcortezv
             </span>
           </button>
 
@@ -123,7 +124,7 @@ export default function Navbar() {
               href="https://github.com/mcortezv"
               target="_blank"
               rel="noopener noreferrer"
-              className="nav-link-item btn-ghost py-1.5 px-3 text-xs"
+              className="nav-link-item btn-nav"
             >
               GitHub ↗
             </a>
@@ -153,7 +154,7 @@ export default function Navbar() {
             className="absolute left-3 right-3 rounded-2xl overflow-hidden shadow-2xl"
             style={{
               top: 'calc(4rem + env(safe-area-inset-top, 0px))',
-              background: 'rgba(13,13,13,0.97)',
+              background: 'rgba(14,14,14,0.98)',
               backdropFilter: 'blur(30px)',
               WebkitBackdropFilter: 'blur(30px)',
               border: '1px solid var(--border)',

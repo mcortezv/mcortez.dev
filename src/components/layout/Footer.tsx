@@ -37,7 +37,7 @@ export default function Footer() {
       <div className="max-w-[1280px] mx-auto px-6 md:px-10 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 rounded-md bg-[var(--accent)] flex items-center justify-center">
-            <span className="text-[#060606] font-black text-[10px]">MC</span>
+            <span className="text-[#0a0a0a] font-black text-[10px]">MC</span>
           </div>
           <span className="text-xs text-[var(--text-muted)] font-mono">
             Manuel Cortez © {new Date().getFullYear()}
