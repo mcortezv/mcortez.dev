@@ -282,7 +282,12 @@ export default function HeroCanvas() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d')!
+    /* Sin asercion: si el navegador niega el contexto (presion de memoria en
+       movil, por ejemplo), esto lanzaba en la linea siguiente y el error subia
+       hasta desmontar el arbol entero — pagina negra. */
+    const ctx2d = canvas.getContext('2d')
+    if (!ctx2d) return
+    const ctx: CanvasRenderingContext2D = ctx2d
 
     const SEED = 2025
     const noise = buildNoise(SEED)

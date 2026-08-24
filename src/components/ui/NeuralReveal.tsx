@@ -35,6 +35,15 @@ export default function NeuralReveal({
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  /* Seis instancias de esto reservaban a la vez su buffer de canvas al montar
+     (el ResizeObserver llama a init() de inmediato). En un telefono, con las
+     secciones midiendo 1400-1800px de alto y dpr 2, son unos 50 MB solo en
+     buffers, mas seis bucles de requestAnimationFrame. Es una capa decorativa:
+     en pantallas pequenas no se monta, y con reduced-motion tampoco. */
+  const enabled = typeof window !== 'undefined'
+    && window.innerWidth >= 768
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
   /* Los canales se extraen aqui para que el efecto dependa de sus valores y no
      de la identidad del array: `color={[234, 232, 228]}` en el JSX construye un
      array nuevo en cada render, y con `[color]` como dependencia el efecto se
@@ -42,11 +51,16 @@ export default function NeuralReveal({
   const [cr, cg, cb] = color
 
   useEffect(() => {
+    if (!enabled) return
     const canvas = canvasRef.current
     if (!canvas) return
     const parent = canvas.parentElement
     if (!parent) return
-    const ctx = canvas.getContext('2d')!
+    /* Sin asercion: un navegador puede negar el contexto por presion de
+       memoria, y esta capa no vale caerse. */
+    const ctx2d = canvas.getContext('2d')
+    if (!ctx2d) return
+    const ctx: CanvasRenderingContext2D = ctx2d
 
     let W = 0, H = 0
     let dots: Dot[] = []
@@ -255,7 +269,9 @@ export default function NeuralReveal({
       visibilityTrigger.kill()
       ro.disconnect()
     }
-  }, [cr, cg, cb, count])
+  }, [cr, cg, cb, count, enabled])
+
+  if (!enabled) return null
 
   return (
     <canvas

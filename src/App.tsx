@@ -47,6 +47,18 @@ export default function App() {
   const [heroReady, setHeroReady] = useState(false)
   useSmoothScroll()
 
+  /* El hero arranca en autoAlpha: 0 y solo se revela cuando `heroReady` se
+     pone en true, lo que hasta ahora dependia de que el usuario pulsara el
+     modal de musica. Si ese clic no llega — porque el modal no se pinto, o
+     porque algo fallo antes — la pagina se queda negra de forma permanente.
+     Este plazo garantiza que el contenido aparezca de todas formas. Es red de
+     seguridad, no la via normal: da tiempo de sobra para interactuar. */
+  useEffect(() => {
+    if (heroReady) return
+    const t = window.setTimeout(() => setHeroReady(true), 6000)
+    return () => window.clearTimeout(t)
+  }, [heroReady])
+
   return (
     <BrowserRouter>
       <div className="grain-overlay" aria-hidden="true" />
