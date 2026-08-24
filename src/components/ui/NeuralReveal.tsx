@@ -35,6 +35,12 @@ export default function NeuralReveal({
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  /* Los canales se extraen aqui para que el efecto dependa de sus valores y no
+     de la identidad del array: `color={[234, 232, 228]}` en el JSX construye un
+     array nuevo en cada render, y con `[color]` como dependencia el efecto se
+     reiniciaba en cada re-render de la seccion. */
+  const [cr, cg, cb] = color
+
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -49,7 +55,6 @@ export default function NeuralReveal({
     let animId = 0
     let isVisible = false
 
-    const [cr, cg, cb] = color
 
     function init() {
       if (!canvas) return
@@ -250,7 +255,7 @@ export default function NeuralReveal({
       visibilityTrigger.kill()
       ro.disconnect()
     }
-  }, [color, count])
+  }, [cr, cg, cb, count])
 
   return (
     <canvas

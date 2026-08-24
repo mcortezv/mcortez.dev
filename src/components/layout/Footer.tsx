@@ -69,9 +69,28 @@ export default function Footer() {
           </a>
         </div>
 
-        <span className="text-xs text-[var(--text-disabled)] font-mono">
-          Built with React + GSAP
-        </span>
+        {/* Antes decia "Built with React + GSAP", que es la cadencia exacta de
+            un badge de patrocinio: acredita al proveedor y no al autor. Un
+            enlace al codigo de este mismo sitio no puede leerse como badge, y
+            ademas dice algo: aqui esta, revisalo. Va mas apagado que los
+            enlaces de contacto porque es el cierre, no una via de contacto. */}
+        <a
+          href={personal.links.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-1.5 text-xs text-[var(--text-disabled)] hover:text-[var(--accent)] transition-colors font-mono"
+        >
+          Source on GitHub
+          <svg
+            width="9"
+            height="9"
+            viewBox="0 0 11 11"
+            fill="none"
+            className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          >
+            <path d="M1 10L10 1M10 1H5M10 1V6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
       </div>
     </footer>
   )

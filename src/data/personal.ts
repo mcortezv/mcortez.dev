@@ -2,22 +2,24 @@ import type { TechItem, Project, Achievement } from '@/types'
 
 export const personal = {
   name: 'Manuel Cortez',
-  role: 'AI Developer & Consultant',
+  role: 'Head of AI',
   tagline: 'Building Scalable Web Apps & AI Solutions',
   description:
     'Diseño e implemento agentes de IA, workflows automatizados, RAG con manejo de contexto y embeddings, y evaluaciones de modelos que impactan directamente en la experiencia de usuario, eficiencia operativa y ventas en productos B2B.',
-  location: 'Monterrey, Nuevo León, México',
+  location: 'Ciudad Obregón, Sonora, México',
   email: {
     personal: 'mdjesuscv@gmail.com',
     work: 'manuel@hyperlabs.vc',
   },
   links: {
     github: 'https://github.com/mcortezv',
+    repo: 'https://github.com/mcortezv/mcortez.dev',
     linkedin: 'https://www.linkedin.com/in/mcortezv/',
   },
   currentRole: {
-    title: 'AI Software Developer',
-    company: 'Hyper Digital',
+    title: 'Head of AI',
+    company: 'HyperLabs',
+    url: 'https://www.hyperdigital.mx/',
     period: 'ene. 2026 – actualidad',
     type: 'Jornada parcial · Remoto',
     description:
@@ -25,9 +27,10 @@ export const personal = {
   },
   education: {
     school: 'Instituto Tecnológico de Sonora',
-    degree: 'Ingeniería en Computer Software Engineering',
+    degree: 'Ingeniería en Software',
     period: 'jul. 2024 – dic. 2028',
     status: 'En curso',
+    progress: 57,
     subjects: ['Arquitectura de Software', 'Diseño de Software', 'Análisis de Algoritmos', 'Estructura de Datos'],
   },
 }
@@ -43,9 +46,14 @@ export const techStack: TechItem[] = [
   { name: 'PostgreSQL', category: 'Database', level: 'proficient', description: 'Relational data, vectors, SQL' },
   { name: 'Vercel', category: 'Infrastructure', level: 'core', description: 'Edge deployments, CI/CD' },
   { name: 'Railway', category: 'Infrastructure', level: 'proficient', description: 'Backend deployments, containers' },
+  { name: 'LM Studio', category: 'Infrastructure', level: 'proficient', description: 'Local LLM serving, OpenAI-compatible API' },
   { name: 'Scikit-Learn', category: 'AI/ML', level: 'proficient', description: 'Regression, RF, PCA, evaluation' },
+  { name: 'Claude Code', category: 'Tool', level: 'core', description: 'Agentic dev loop, subagents, skills' },
   { name: 'Git', category: 'Tool', level: 'core', description: 'Version control, branching strategies' },
+  { name: 'OpenSpec', category: 'Tool', level: 'proficient', description: 'Spec-driven change proposals' },
   { name: 'GitHub', category: 'Tool', level: 'core', description: 'Code review, Actions, collaboration' },
+  { name: 'Tailwind CSS', category: 'Framework', level: 'core', description: 'Design tokens, responsive systems' },
+  { name: 'Astro', category: 'Framework', level: 'proficient', description: 'Content sites, islands architecture' },
   { name: 'Java', category: 'Language', level: 'familiar', description: 'OOP foundations, academic projects' },
   { name: 'SQL', category: 'Database', level: 'proficient', description: 'Complex queries, optimization' },
 ]
@@ -92,7 +100,7 @@ export const achievements: Achievement[] = [
     issuer: 'NVIDIA',
     date: 'mar. 2026',
     description:
-      'Selected for NVIDIA\'s program supporting AI startups with cutting-edge technology and resources.',
+      'Hyperflow selected for NVIDIA\'s program supporting AI startups with cutting-edge technology and resources.',
     type: 'program',
   },
   {
@@ -100,7 +108,7 @@ export const achievements: Achievement[] = [
     issuer: 'Intel',
     date: 'ene. 2024',
     description:
-      'Intel certification in AI acceleration methodologies and implementation for the Mexican market.',
-    type: 'certification',
+      'Recognition in Intel\'s competition for an AI system for advanced reverse osmosis systems.',
+    type: 'award',
   },
 ]

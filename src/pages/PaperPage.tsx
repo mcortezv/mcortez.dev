@@ -442,7 +442,7 @@ export default function PaperPage() {
         style={{ background: theme.bg, borderTop: `1px solid ${theme.border}`, paddingBottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))' }}
       >
         <p className="text-xs font-mono" style={{ color: theme.muted }}>
-          Manuel Cortez © {new Date().getFullYear()} · Monterrey, México
+          Manuel Cortez © {new Date().getFullYear()} · Ciudad Obregón, México
         </p>
         <div className="flex justify-center gap-5 mt-3">
           <a

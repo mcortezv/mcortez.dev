@@ -4,22 +4,12 @@ import { gsap, addCardLight } from '@/lib/gsap'
 import { personal, achievements } from '@/data/personal'
 import NeuralReveal from '@/components/ui/NeuralReveal'
 
-/* ─── Education progress calculation ─── */
-function getEducationProgress(): number {
-  const start = new Date(2024, 6, 1)
-  const end = new Date(2028, 11, 31)
-  const now = new Date()
-  const total = end.getTime() - start.getTime()
-  const elapsed = now.getTime() - start.getTime()
-  return Math.min(Math.max((elapsed / total) * 100, 0), 100)
-}
-
 export default function Experience() {
   const containerRef = useRef<HTMLElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
 
   const { currentRole, education } = personal
-  const progress = getEducationProgress()
+  const progress = education.progress
 
   useGSAP(() => {
     const headerTl = gsap.timeline({
@@ -107,7 +97,12 @@ export default function Experience() {
               <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-4 block">Current Role</span>
               <h3 className="text-xl md:text-2xl font-bold text-[var(--text)] leading-tight">
                 {currentRole.title}{' '}
-                <span className="text-[var(--text-secondary)]">@ {currentRole.company}</span>
+                <a
+                  href={currentRole.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="exp-affil"
+                >@{currentRole.company}</a>
               </h3>
               <p className="text-sm text-[var(--text-muted)] mt-3 leading-relaxed max-w-lg">{currentRole.description}</p>
             </div>
@@ -126,7 +121,7 @@ export default function Experience() {
             <div className="relative z-10 flex-1">
               <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-3 block">Education</span>
               <h3 className="text-lg font-bold text-[var(--text)] leading-tight">ITSON</h3>
-              <p className="text-xs text-[var(--text-secondary)] mt-1 leading-snug">B.S. Computer Software Engineering<br />Instituto Tecnológico de Sonora</p>
+              <p className="text-xs text-[var(--text-secondary)] mt-1 leading-snug">{education.degree}<br />{education.school}</p>
               <div className="flex flex-wrap gap-1.5 mt-4">
                 {education.subjects.map((s) => (
                   <span key={s} className="tone-tile font-mono text-[0.6rem] text-[var(--text-secondary)] px-2 py-0.5 rounded" style={{ '--tone': 'var(--accent-2)' } as React.CSSProperties}>{s}</span>

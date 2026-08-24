@@ -215,8 +215,7 @@ export default function Contact() {
           background: var(--bg-card-hover);
           border-color: var(--border-strong);
           box-shadow:
-            inset 0 0 0 1px var(--border-strong),
-            inset 0 0 0 999px rgba(255, 255, 255, 0.022),
+            inset 0 0 0 999px rgba(255, 255, 255, 0.038),
             0 20px 60px rgba(0,0,0,0.5);
         }
 

@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap, scrollTo } from '@/lib/gsap'
+import { personal } from '@/data/personal'
 import HeroCanvas from './HeroCanvas'
 
 /** Momento en que el canvas dispara la explosión de partículas (ver HeroCanvas) */
@@ -103,7 +104,7 @@ export default function Hero({ canAnimate = false }: { canAnimate?: boolean }) {
               <div className="hero-main">
 
                 <p className="hero-stagger hero-eyebrow mb-6 sm:mb-7">
-                  001 &nbsp;/&nbsp; AI Developer &amp; Consultant
+                  001 &nbsp;/&nbsp; {personal.role}
                 </p>
 
                 <h1 className="hero-title mb-7 sm:mb-8">
@@ -135,7 +136,7 @@ export default function Hero({ canAnimate = false }: { canAnimate?: boolean }) {
 
             {/* ── Barra de estado ── */}
             <div className="hero-statusbar">
-              <span className="hero-chrome hero-eyebrow">Monterrey, MX</span>
+              <span className="hero-chrome hero-eyebrow">Sonora, MX</span>
 
               <div className="hero-chrome flex flex-wrap items-center gap-x-5 gap-y-2">
                 <span className="hero-eyebrow hidden md:inline">Working at</span>
@@ -146,7 +147,7 @@ export default function Hero({ canAnimate = false }: { canAnimate?: boolean }) {
                   className="hero-affil"
                 >
                   <span className="hero-affil-mark">H</span>
-                  Hyper Digital
+                  HyperLabs
                 </a>
                 <span className="hero-affil">
                   <span className="hero-affil-mark">N</span>

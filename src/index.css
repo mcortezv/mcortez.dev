@@ -551,6 +551,13 @@ body {
               border-color var(--dur-base) var(--ease-out);
 }
 
+/* El realce es un relleno, no un aro. Un aro de 1px es un rectangulo, y estas
+   celdas viven dentro de contenedores con radio y `overflow: hidden` sin tener
+   radio propio: en las cuatro esquinas del bento el contenedor le recortaba la
+   esquina cuadrada y el borde desaparecia justo ahi. Hacerlo seguir la curva
+   pediria radios a mano en las celdas de esquina, rehechos en cada breakpoint
+   segun como reflurya la rejilla. Un relleno no tiene esquinas propias: se
+   recorta contra el radio del contenedor y siempre queda limpio. */
 .about-card:hover,
 .exp-card:hover,
 .cc-card:hover,
@@ -558,9 +565,7 @@ body {
 .stack-cell:hover,
 .paper-cell:hover {
   transition-duration: var(--dur-fast);
-  box-shadow:
-    inset 0 0 0 1px var(--border-strong),
-    inset 0 0 0 999px rgba(255, 255, 255, 0.022);
+  box-shadow: inset 0 0 0 999px rgba(255, 255, 255, 0.038);
 }
 
 /* Las tarjetas sueltas si se levantan y proyectan sombra. */
@@ -570,9 +575,72 @@ body {
 .proj-card:hover {
   translate: 0 -3px;
   box-shadow:
-    inset 0 0 0 1px var(--border-strong),
-    inset 0 0 0 999px rgba(255, 255, 255, 0.022),
+    inset 0 0 0 999px rgba(255, 255, 255, 0.038),
     0 16px 44px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── Empresa en la tarjeta de rol actual ─────────────────────────
+   Hereda tamano y peso del titular, asi que lo que lo separa del nombre del
+   puesto es el color: la misma lavanda que usa la tarjeta de Educacion. Al
+   ser un enlace dentro de un encabezado necesita una senal propia de que se
+   puede pulsar — de ahi el subrayado al pasar por encima, que en reposo no
+   esta para no ensuciar el titular. */
+.exp-affil {
+  color: var(--accent-2);
+  text-decoration: none;
+  text-underline-offset: 0.18em;
+  transition: color var(--dur-fast) var(--ease-standard),
+              filter var(--dur-fast) var(--ease-standard);
+}
+
+.exp-affil:hover {
+  color: var(--accent-2);
+  filter: saturate(1.5) brightness(1.14);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+/* ─── Deriva de los puntos de concepto ───────────────────────
+   Los veinte anclas de concepto estaban en posiciones fijas, y en reposo eso
+   se leia como una textura pegada al fondo. Con una deriva lenta el canvas
+   respira sin que nada se mueva lo bastante para distraer: la amplitud llega a
+   unos 11px sobre un lienzo de 1200, y el ciclo dura entre 9 y 16 segundos.
+
+   La duracion, el retardo y el sentido salen del indice de cada punto, asi que
+   ninguno va sincronizado con otro y el resultado es estable entre recargas.
+   El retardo es negativo a proposito: arranca a cada punto en un instante
+   distinto del ciclo, en vez de que los veinte salgan juntos del reposo.
+
+   La animacion mueve `transform`; el centrado del punto vive en `margin`, asi
+   que las dos cosas no se pisan. */
+@keyframes concept-drift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(7px, -11px); }
+  50%  { transform: translate(-6px, 9px); }
+  75%  { transform: translate(-11px, -4px); }
+  100% { transform: translate(0, 0); }
+}
+
+.proj-concept-dot {
+  animation-name: concept-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-concept-dot { animation: none; }
+}
+
+/* Firma de proyecto: en reposo va desaturada como los logos y los chips, y
+   llega a su color real cuando el cursor entra en la tarjeta. */
+.proj-sig {
+  filter: saturate(0.8);
+  transition: filter var(--dur-base) var(--ease-standard);
+}
+.group:hover .proj-sig {
+  filter: saturate(1.5) brightness(1.12);
+  transition-duration: var(--dur-fast);
 }
 
 /* Piezas pequenas: el borde reacciona, nada mas */
@@ -1162,14 +1230,31 @@ body {
    al logo de 20px con el cursor. Ahora responde la tarjeta entera, y el paso
    llega un poco por encima del color nominal para que se lea como que la pieza
    se enciende, no solo que deja de estar apagada. */
-.group:hover .tech-logo,
-.stack-cell:hover .tech-logo,
-.paper-cell:hover .tech-logo,
-.about-card:hover .tech-logo,
-.exp-card:hover .tech-logo,
-.card:hover .tech-logo,
+:is(.group, .stack-cell, .paper-cell, .about-card, .exp-card, .card):hover .tech-logo,
 .tech-logo:hover {
   filter: saturate(1.45) brightness(1.1)
+          drop-shadow(0 0 8px rgba(255, 255, 255, 0.16));
+  transition-duration: var(--dur-fast);
+}
+
+/* Logos que llegan en negro (GitHub, Vercel) y desaparecerian sobre la
+   tarjeta: se normalizan a una silueta blanca.
+
+   `brightness(0)` los aplasta a negro y luego `invert(1)` los sube a blanco.
+   Para un logo ya negro `invert(1)` a secas bastaria, pero la version de dos
+   pasos da blanco a partir de cualquier color de origen, asi que agregar una
+   marca oscura a DARK_LOGOS no obliga a revisar si el atajo aun aplica.
+
+   Vive en CSS y no inline a proposito: un `style.filter` inline pisa por
+   completo el filtro de `.tech-logo`, que es la razon por la que hasta ahora
+   los logos de GitHub y Vercel eran los unicos que no reaccionaban al hover. */
+.tech-logo--mono {
+  filter: brightness(0) invert(1) brightness(0.82);
+}
+
+:is(.group, .stack-cell, .paper-cell, .about-card, .exp-card, .card):hover .tech-logo--mono,
+.tech-logo--mono:hover {
+  filter: brightness(0) invert(1)
           drop-shadow(0 0 8px rgba(255, 255, 255, 0.16));
   transition-duration: var(--dur-fast);
 }

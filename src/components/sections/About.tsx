@@ -273,9 +273,9 @@ export default function About() {
 
             <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-4 block relative z-10">Who I am</span>
             <p className="text-lg md:text-xl font-medium text-[var(--text)] leading-relaxed mb-4 relative z-10">
-              I'm <span className="text-[var(--text)] font-semibold">Manuel Cortez</span>, an AI software
-              developer crafting intelligent agents, automated workflows, and
-              RAG systems that drive real business impact.
+              I'm <span className="text-[var(--text)] font-semibold">Manuel Cortez</span>, Head of AI at HyperLabs,
+              crafting intelligent agents, automated workflows, and RAG systems
+              that drive real business impact.
             </p>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed relative z-10 max-w-xl">
               I specialize in context-aware AI architectures, embedding
@@ -291,8 +291,8 @@ export default function About() {
           >
 
             <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-[var(--text-muted)] mb-3 block relative z-10">Location</span>
-            <h3 className="text-2xl md:text-3xl font-bold text-[var(--text)] leading-tight relative z-10">Monterrey, MX</h3>
-            <p className="text-sm text-[var(--text-muted)] mt-1 relative z-10">Nuevo León, Mexico</p>
+            <h3 className="text-2xl md:text-3xl font-bold text-[var(--text)] leading-tight relative z-10">Sonora, MX</h3>
+            <p className="text-sm text-[var(--text-muted)] mt-1 relative z-10">Ciudad Obregón, Mexico</p>
 
             <div className="absolute bottom-0 right-0 w-[55%] h-[65%] pointer-events-none overflow-hidden">
               {MAP_DOTS.map((dot, i) => (

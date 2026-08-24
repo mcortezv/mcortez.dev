@@ -3,7 +3,7 @@ import { useGSAP } from '@gsap/react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 
 const ITEMS = [
-  'AI DEVELOPER',
+  'HEAD OF AI',
   'AGENT ARCHITECT',
   'RAG SYSTEMS',
   'B2B PRODUCT AI',
