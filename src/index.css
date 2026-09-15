@@ -1081,7 +1081,9 @@ body {
   font-feature-settings: 'cv05' 1, 'cv08' 1, 'ss03' 1;
 }
 
-.hero-line { display: block; overflow: hidden; }
+/* Sin `overflow: hidden`: era la mascara del reveal antiguo y ahora recortaria
+   las letras mientras llegan dispersas. El recorte lo hace .hero-inner. */
+.hero-line { display: block; }
 /* inline-block para que la caja se ajuste al texto: así se puede medir el
    hueco que queda a su derecha en retrato. */
 .hero-title-ln { display: inline-block; will-change: transform; }
@@ -1214,6 +1216,85 @@ body {
   .hero-title { margin-bottom: 1.35rem; }
   .hero-divider { margin-bottom: 1.35rem; }
   .hero-main > p:last-of-type { margin-bottom: 1.65rem; }
+}
+
+/* ─── Retrato: el hero a sangre ────────────────────────────
+   En un telefono la ventana tipo macOS no enmarcaba ningun espectaculo
+   — en retrato el lienzo no forma el nombre ni estalla — y su cromo se
+   comia 109px, el 16% de la ventana, en dos barras decorativas: tres
+   puntos, una pildora de URL y una barra de estado que ademas se apilaba
+   en columna. Aqui la caja desaparece y el contenido ocupa el ancho
+   completo. Lo que sujeta la composicion, para que nada quede flotando,
+   son las dos reglas que sobreviven de esas barras. El escritorio, donde
+   la ventana si enmarca la formacion del nombre, no se toca. */
+@media (max-width: 640px) {
+  .hero-window {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    /* Sin caja que recortar: el limite lo sigue poniendo .hero-inner. */
+    overflow: visible;
+  }
+
+  /* La barra de titulo se reduce a su regla: sin alto, sin puntos, sin pildora. */
+  .hero-titlebar {
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    background: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-titlebar > * { display: none; }
+
+  /* La de estado pierde la caja y se lee como una linea de meta mas. */
+  .hero-statusbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    /* Reparte: la ciudad a la izquierda, las filiaciones contra el borde
+       derecho. Es lo que le da a la linea su segunda vertical. */
+    justify-content: space-between;
+    gap: 0.45rem 1.15rem;
+    min-height: 0;
+    padding: 0.95rem 0 0;
+    background: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Sin caja alrededor, el aire lateral lo pone la pagina. */
+  .hero-body { padding: 1.5rem 0; }
+
+  /* ── Escala proporcional a la altura del viewport ──
+     El tipo y los espacios eran fijos, asi que el bloque de texto medía casi
+     lo mismo (~370px) en un telefono de 844px de alto que en uno de 568. En el
+     primero sobraban 123px por hueco y en el segundo 12: por eso los diagramas
+     solo salian en los grandes. Ahora cada medida lleva un tope en `svh`, de
+     modo que un telefono corto recibe la misma composicion a menor tamaño en
+     vez de otra distinta. Los maximos coinciden con los valores que ya habia,
+     asi que de 844px para arriba no cambia nada. */
+  .hero-frame {
+    padding-top:    calc(clamp(4.6rem, 10svh, 5.25rem) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(clamp(3.4rem, 11svh, 5.75rem) + env(safe-area-inset-bottom, 0px));
+  }
+  .hero-body { padding: clamp(0.5rem, 2.8svh, 1.5rem) 0; }
+
+  .hero-title { font-size: clamp(2.25rem, min(15.5vw, 7.2svh), 4.5rem); }
+  .hero-main > .hero-eyebrow { margin-bottom: clamp(0.45rem, 2.1svh, 1.15rem); }
+  .hero-title { margin-bottom: clamp(0.5rem, 2.6svh, 1.35rem); }
+  .hero-divider { margin-bottom: clamp(0.5rem, 2.6svh, 1.35rem); }
+  /* Solo el margen: el tamaño del parrafo lo fija un style inline en Hero.tsx,
+     que desde aqui no se puede tocar. */
+  .hero-main > p:last-of-type { margin-bottom: clamp(0.7rem, 3.1svh, 1.65rem); }
+  .hero-statusbar { padding-top: clamp(0.5rem, 1.9svh, 0.95rem); }
+
+  /* ── Segunda vertical ──
+     Todas las piezas arrancaban ya en el mismo borde izquierdo, pero el
+     divisor, el boton y la meta terminaban en 298, 247 y 281: tres finales
+     distintos flotando dentro de bandas de 342px. Habia borde izquierdo y
+     ninguno derecho, y eso es lo que se leia como desorden — no la falta de
+     centrado. Aqui las tres alcanzan el mismo borde derecho que las reglas. */
+  .hero-divider { width: 100%; }
+  .hero-main .btn-hero { width: 100%; justify-content: center; }
 }
 
 /* ─── Logos de marca ───────────────────────────────────────

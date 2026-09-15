@@ -638,6 +638,19 @@ export const SMALL_GEO: CItem[] = [
   CLASS_DIAGRAM, CHART_BARS, MATRIX, CHART_LINE, SCATTER, STATE_MACHINE, TREE_INDEX,
 ]
 
+/** Retrato: solo piezas dibujadas.
+    Antes los huecos del telefono se llenaban con BANDS, y ahi habia dos
+    problemas. Uno: de sus 13 piezas, 10 eran una formula — una etiqueta, una
+    linea de matematicas y un subrayado, que no es un diagrama sino un renglon.
+    Dos: todas las de banda miden 180x30, o sea 6:1, y como la escala es
+    uniforme, en un hueco de 342x135 se dibujan como una tira de 342x57 que
+    cruza la pantalla de lado a lado. Estas van entre 1:1 y 1.7:1, asi que en
+    el mismo hueco caen como un diagrama de unos 130x135. */
+export const PORTRAIT_PIECES: CItem[] = [
+  CLASS_DIAGRAM, CHART_LINE, MATRIX, SCATTER, CHART_BARS,
+  STATE_MACHINE, TREE_INDEX, SPARKS, METERS,
+]
+
 /** Apuntes al margen: verticales para los costados, anchos para las bandas. */
 export const OUTER_TALL: CItem[] = [
   MATRIX, METERS, CLASS_DIAGRAM, STATE_MACHINE, SPARKS, CHART_BARS, SCATTER,
@@ -735,8 +748,12 @@ const UNITS: Record<'lead' | 'inner' | 'margin' | 'mobile', UnitRange> = {
   lead:   { min: 1.25, max: 2.50 },
   inner:  { min: 1.05, max: 2.30 },
   margin: { min: 0.95, max: 1.75 },
-  // En un teléfono el suelo baja: mejor una pieza algo pequeña que ninguna.
-  mobile: { min: 0.90, max: 2.80 },
+  /* En un teléfono el suelo baja: mejor una pieza algo pequeña que ninguna.
+     Y baja hasta 0.62 porque en una pantalla corta el hueco se queda en unos
+     65px: con el suelo en 0.90 una pieza de 96 de alto pedía 86px y se
+     descartaba, dejando el hero sin una sola línea técnica. A 0.62 mide unos
+     60x57 — una anotación al margen, que es lo que es. */
+  mobile: { min: 0.62, max: 2.80 },
 }
 
 export interface Placement {
@@ -753,6 +770,11 @@ export interface Placement {
   slot?: Slot
   /** o en uno de los huecos que deja la columna de texto (retrato) */
   zone?: 'void-top' | 'void-bottom' | 'title-pocket'
+    | 'void-top-l' | 'void-top-r' | 'void-bottom-l' | 'void-bottom-r'
+  /** Contra que borde de su area se apoya. Por defecto, centrada. */
+  align?: 'start' | 'center' | 'end'
+  /** Solo se dibuja si ninguna pieza normal cupo. Ver `fallback` en composeMobile. */
+  fallback?: boolean
   /** o contra uno de los márgenes exteriores */
   margin?: MarginSpot
 }
@@ -777,19 +799,42 @@ function pick(pool: CItem[], start: number, taken: Set<string>): CItem {
 
 function composeMobile(cycle: number): Placement[] {
   const taken = new Set<string>()
-  const top  = pick(BANDS, cycle * 3, taken)
-  const bot  = pick(BANDS, cycle * 3 + 4, taken)
+  const topL = pick(PORTRAIT_PIECES, cycle * 2, taken)
+  const topR = pick(PORTRAIT_PIECES, cycle * 2 + 3, taken)
+  const botL = pick(PORTRAIT_PIECES, cycle * 2 + 5, taken)
+  const botR = pick(PORTRAIT_PIECES, cycle * 2 + 7, taken)
   const chip = pick(CHIPS, cycle, taken)
 
-  // Sin cartuchos ni marcas de registro en retrato: no hay hueco para ellos
-  // sin pisar el texto.
+  /* Sin cartuchos ni marcas de registro en retrato: no hay hueco para ellos
+     sin pisar el texto. Y sin la ficha del 'title-pocket': ese hueco se medía
+     a la derecha del nombre, y desde que el hero va a sangre el nombre es mas
+     grande y ocupa el ancho completo, asi que la ficha aterrizaba pegada a las
+     letras y se salia por el borde. */
+  /* Dos piezas por hueco y no una.
+     El hueco de un telefono mide 342x135 y la escala la manda el alto
+     (135/96 = 1.41), asi que una pieza cuadrada nunca pasa de ~190px de ancho
+     y, centrada, dejaba ~150px de vacio repartidos a izquierda y derecha. Con
+     dos, apoyadas contra los bordes de la columna, el vacio se reduce a la
+     separacion central y los extremos caen sobre las mismas verticales que el
+     texto — las de 24 y 366. */
   return [
-    { item: top,  zone: 'void-top', lead: false, units: UNITS.mobile,
-      dim: 1, particles: true, caption: false },
-    { item: bot,  zone: 'void-bottom', lead: false, units: UNITS.mobile,
-      dim: 1, particles: true, caption: false },
-    { item: chip, zone: 'title-pocket', lead: false, units: UNITS.mobile,
-      dim: 0.9, particles: true, caption: false },
+    { item: topL, zone: 'void-top-l', align: 'start', lead: false,
+      units: UNITS.mobile, dim: 1, particles: true, caption: false },
+    { item: topR, zone: 'void-top-r', align: 'end', lead: false,
+      units: UNITS.mobile, dim: 0.85, particles: true, caption: false },
+    { item: botL, zone: 'void-bottom-l', align: 'start', lead: false,
+      units: UNITS.mobile, dim: 0.85, particles: true, caption: false },
+    { item: botR, zone: 'void-bottom-r', align: 'end', lead: false,
+      units: UNITS.mobile, dim: 1, particles: true, caption: false },
+
+    /* Reserva para pantallas muy cortas. Ahi los huecos de arriba y abajo se
+       quedan sin alto suficiente y las cuatro piezas se descartan, asi que el
+       hero se quedaria sin una sola linea tecnica. Esta ficha ocupa el hueco
+       a la derecha del nombre, y solo entra si ninguna de las otras cupo: en
+       un telefono normal se descarta, que es justo lo que se buscaba al
+       sacarla — pegada a las letras del nombre no funcionaba. */
+    { item: chip, zone: 'title-pocket', fallback: true, lead: false,
+      units: UNITS.mobile, dim: 0.9, particles: true, caption: false },
   ]
 }
 

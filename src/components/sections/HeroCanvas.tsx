@@ -427,15 +427,22 @@ export default function HeroCanvas() {
           }
         : { x: 0, y: 0, w: 0, h: 0 }
 
+      const topH = Math.max(0, main.y - gap - field.y)
+      const botH = Math.max(0, field.y + field.h - bottomStart)
+
+      /* Cada hueco se parte en dos mitades con un pasillo en medio: en retrato
+         entran dos piezas por hueco, cada una apoyada en su borde exterior. */
+      const alley = 14
+      const halfW = Math.max(0, (field.w - alley) / 2)
+      const rightX = field.x + halfW + alley
+
       return {
-        'void-top': {
-          x: field.x, y: field.y,
-          w: field.w, h: Math.max(0, main.y - gap - field.y),
-        },
-        'void-bottom': {
-          x: field.x, y: bottomStart,
-          w: field.w, h: Math.max(0, field.y + field.h - bottomStart),
-        },
+        'void-top':      { x: field.x, y: field.y,     w: field.w, h: topH },
+        'void-bottom':   { x: field.x, y: bottomStart, w: field.w, h: botH },
+        'void-top-l':    { x: field.x, y: field.y,     w: halfW,   h: topH },
+        'void-top-r':    { x: rightX,  y: field.y,     w: halfW,   h: topH },
+        'void-bottom-l': { x: field.x, y: bottomStart, w: halfW,   h: botH },
+        'void-bottom-r': { x: rightX,  y: bottomStart, w: halfW,   h: botH },
         'title-pocket': pocket,
       }
     }
@@ -455,9 +462,13 @@ export default function HeroCanvas() {
       let leadUnit = 1
 
       const bands = portrait ? voidBands(field) : null
+      // Cuantas piezas normales se han podido dibujar: las de reserva miran
+      // esto para saber si hacen falta.
+      let colocadas = 0
 
       for (const place of composeSheet(cycle, portrait) as Placement[]) {
         const { item, slot, margin, zone, lead, dim, units } = place
+        if (place.fallback && colocadas > 0) continue
 
         // Slot del cuerpo, hueco medido de la columna, o margen exterior
         const area = zone
@@ -481,9 +492,12 @@ export default function HeroCanvas() {
         if (fit < units.min) continue
         const unit = Math.min(fit, units.max)
 
+        if (!place.fallback) colocadas++
+
         const bw = item.w * unit
         const bh = item.h * unit
-        const align = margin?.align ?? 'center'
+        // La pieza manda sobre el margen: en retrato se apoya en su borde exterior.
+        const align = place.align ?? margin?.align ?? 'center'
         const ox = align === 'start' ? sx
                  : align === 'end'   ? sx + sw - bw
                  : sx + (sw - bw) / 2
@@ -632,7 +646,10 @@ export default function HeroCanvas() {
       const isMobile = W < 768
       // En retrato la hoja se compone en columna y cabe desde 340px de ancho
       portrait = isMobile
-      sheetsOn = portrait ? (W >= 340 && H >= 620) : (W >= 1000 && H >= 600)
+      /* El umbral de retrato baja de 340x620 a 320x560: un iPhone SE quedaba
+         fuera y se iba sin una sola linea tecnica. Ahi los huecos de arriba y
+         abajo no dan de si, pero la ficha de reserva junto al nombre si entra. */
+      sheetsOn = portrait ? (W >= 320 && H >= 560) : (W >= 1000 && H >= 600)
 
       const textPositions = portrait ? [] : sampleTextPositions(W, H, canvas)
 
