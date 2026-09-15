@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import Navbar       from '@/components/layout/Navbar'
@@ -33,6 +33,41 @@ function useSmoothScroll() {
   }, [])
 }
 
+/* React Router no toca el scroll al cambiar de ruta. Al volver de un paper la
+   landing se montaba con el desplazamiento que traia la lectura y aterrizabas
+   en mitad de una seccion cualquiera — que es ademas lo que destapaba el
+   ReferenceError de NeuralReveal y dejaba la pagina negra. Aqui cada ruta
+   recuerda donde se quedo: se vuelve al sitio que se dejo, y una ruta que se
+   abre por primera vez empieza arriba. */
+function ScrollMemory() {
+  const { pathname } = useLocation()
+  const positions    = useRef(new Map<string, number>())
+  const current      = useRef(pathname)
+  const firstRender  = useRef(true)
+
+  /* La posicion se anota mientras se navega y no al desmontar: para cuando
+     React cambia de ruta el documento ya mide otra cosa y el navegador pudo
+     haber recortado el scroll, asi que leerlo en ese momento da un valor que
+     no corresponde a la pagina que se esta abandonando. */
+  useEffect(() => {
+    const onScroll = () => positions.current.set(current.current, window.scrollY)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  /* En layout effect, despues de que las secciones montaron y crearon sus
+     ScrollTrigger pero antes de que el navegador pinte: asi no se ve el salto. */
+  useLayoutEffect(() => {
+    current.current = pathname
+    // La carga inicial se deja como la entrego el navegador.
+    if (firstRender.current) { firstRender.current = false; return }
+    window.scrollTo(0, positions.current.get(pathname) ?? 0)
+    ScrollTrigger.refresh()
+  }, [pathname])
+
+  return null
+}
+
 function MainLayout({ heroReady }: { heroReady: boolean }) {
   return (
     <>
@@ -62,6 +97,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="grain-overlay" aria-hidden="true" />
+      <ScrollMemory />
       <CustomCursor />
       {/* MusicModal lives outside Routes so audio persists on all pages */}
       <MusicModal onDone={() => setHeroReady(true)} />
