@@ -54,7 +54,6 @@ export default function PaperPage() {
   useEffect(() => {
     if (!paper) return
     setHtml(renderMarkdown(paper.content))
-    window.scrollTo({ top: 0, behavior: 'instant' })
   }, [paper])
 
   useGSAP(() => {

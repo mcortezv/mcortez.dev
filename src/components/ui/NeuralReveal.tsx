@@ -68,6 +68,14 @@ export default function NeuralReveal({
     let phaseT = 0
     let animId = 0
     let isVisible = false
+    /* Se declara aqui, antes del ScrollTrigger, y no junto a startLoop.
+       ScrollTrigger.create() hace su primer refresh de forma sincrona: si la
+       seccion ya esta dentro del viewport en ese instante — pasa al volver de
+       un paper, porque el scroll no se reinicia — onEnter corre dentro de este
+       mismo efecto y llega a startLoop antes de que un `let` posterior este
+       inicializado. Eso lanzaba un ReferenceError que subia hasta React y
+       desmontaba el arbol entero: pagina negra. */
+    let lastFrame = performance.now()
 
 
     function init() {
@@ -135,8 +143,6 @@ export default function NeuralReveal({
       lastFrame = performance.now()
       animId = requestAnimationFrame(loop)
     }
-
-    let lastFrame = performance.now()
 
     function loop(now: number) {
       if (!isVisible && phase === 4) { animId = 0; return }
